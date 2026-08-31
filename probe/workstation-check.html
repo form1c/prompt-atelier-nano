@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Atelier — Prüfung des Arbeitsplatzes</title>
+
+<!--
+  AP-N1, Standortbestimmung im Zielbrowser.
+
+  This file is not an application. It is a report about the browser it runs in,
+  and it exists because every assumption in documentation/Machbarkeitsanalyse.md
+  about file:// is derived from how browsers generally behave rather than from
+  how this particular managed workstation behaves. A group policy can switch off
+  localStorage without telling anybody.
+
+  Deliberately hand-written and deliberately not built:
+
+    * one file, no imports, no fetch, no external anything — everything this
+      page needs must survive being opened from a folder
+    * a **classic** script, not type="module". A module is refused under file://
+      as a cross-origin request, and finding that out here costs nothing while
+      finding it out in AP-N2 costs a build
+    * no build step, because one of the questions is whether the build is worth
+      setting up at all
+
+  Interface text is German because a person reads it. Identifiers and comments
+  are English like the rest of the source.
+-->
+
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #fdfdfc;
+    --muted: #6b6b68;
+    --line: #dcdcd8;
+    --ok: #1a6b3c;
+    --ok-bg: #eaf5ee;
+    --fail: #a3231d;
+    --fail-bg: #fbeceb;
+    --warn: #8a5a00;
+    --warn-bg: #fcf3e2;
+    --info-bg: #eef2f7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e8e8e6; --paper: #1b1b1a; --muted: #a0a09c; --line: #3a3a38;
+      --ok: #7bcf9e; --ok-bg: #17301f; --fail: #f09a95; --fail-bg: #33191a;
+      --warn: #e5be6d; --warn-bg: #322613; --info-bg: #24282e;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; padding: 2rem 1.25rem 4rem; max-width: 54rem;
+    background: var(--paper); color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.1rem; margin: 2.5rem 0 .75rem; padding-bottom: .3rem; border-bottom: 1px solid var(--line); }
+  p { margin: .6rem 0; }
+  .lead { color: var(--muted); margin-bottom: 1.5rem; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+
+  .box { border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.25rem 0; background: var(--info-bg); }
+  .box h3 { margin: 0 0 .5rem; font-size: 1rem; }
+  .box ol { margin: .5rem 0 0; padding-left: 1.3rem; }
+  .box li { margin: .35rem 0; }
+
+  #boot {
+    border: 2px solid var(--fail); background: var(--fail-bg); color: var(--fail);
+    border-radius: 6px; padding: 1rem 1.25rem; margin: 1.25rem 0; font-weight: 600;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: .5rem 0 1rem; }
+  th, td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; font-size: .85rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  td.what { width: 38%; }
+  td.detail { color: var(--muted); font-size: .92em; }
+
+  .tag { display: inline-block; min-width: 6.5rem; text-align: center; padding: .1rem .5rem; border-radius: 4px; font-size: .8rem; font-weight: 600; }
+  .tag-ok { background: var(--ok-bg); color: var(--ok); }
+  .tag-fail { background: var(--fail-bg); color: var(--fail); }
+  .tag-warn { background: var(--warn-bg); color: var(--warn); }
+  .tag-info { background: var(--info-bg); color: var(--muted); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0; align-items: center; }
+  button, label.filebutton {
+    font: inherit; font-size: .95rem; padding: .5rem 1rem; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 5px; background: var(--paper); color: var(--ink);
+  }
+  button:hover, label.filebutton:hover { border-color: var(--muted); }
+  button:disabled { opacity: .5; cursor: default; }
+  input[type=file] { display: none; }
+
+  textarea {
+    width: 100%; min-height: 20rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .82rem; line-height: 1.45; padding: .75rem;
+    border: 1px solid var(--line); border-radius: 5px; background: var(--paper); color: var(--ink);
+  }
+  .note { font-size: .88rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<h1>Prompt Atelier — Prüfung des Arbeitsplatzes</h1>
+<p class="lead">Diese Datei ist keine Anwendung. Sie stellt fest, was dieser Browser auf diesem Rechner erlaubt, und schreibt das Ergebnis auf.</p>
+
+<!--
+  Removed by the script on its first line of work. If it is still on the page,
+  no classic script ran, and that is the single most important finding this file
+  can produce. It has to be legible without any script having run, so it is
+  markup and not something rendered later.
+-->
+<div id="boot">
+  Das eingebettete Skript ist nicht gestartet.<br>
+  <span style="font-weight:400">Das ist bereits ein Ergebnis. Bitte diese Seite unverändert zurückmelden, zusammen mit dem Namen und der Version des Browsers.</span>
+</div>
+
+<div class="box">
+  <h3>Was zu tun ist</h3>
+  <ol>
+    <li>Die Prüfung läuft von selbst. Sie dauert einige Sekunden.</li>
+    <li>Unten die vier Schaltflächen nacheinander betätigen. Sie prüfen Dinge, die ein Programm nicht ohne einen Mausklick prüfen darf.</li>
+    <li>Den Bericht am Ende der Seite zurückschicken, entweder über <em>Bericht kopieren</em> oder über <em>Bericht speichern</em>.</li>
+    <li><strong>Am nächsten Tag diese Datei noch einmal öffnen</strong> und den Bericht erneut schicken. Erst der zweite Aufruf beantwortet die wichtigste Frage: ob der Browser die Daten über Nacht behält.</li>
+    <li>Freiwillig, aber hilfreich: diese Datei zusätzlich in einen <strong>zweiten Ordner</strong> kopieren, von dort öffnen und auch diesen Bericht schicken. Damit ist zu sehen, ob sich zwei lokale Dateien denselben Speicher teilen.</li>
+  </ol>
+  <p class="note" style="margin-top:.75rem">Bitte immer nur <strong>ein</strong> Fenster mit dieser Datei geöffnet haben. Zwei gleichzeitig offene Fenster überschreiben einander, und genau das soll die Messung nicht mitmessen.</p>
+</div>
+
+<h2>Ergebnis</h2>
+<table id="results">
+  <thead><tr><th class="what">Prüfung</th><th style="width:8rem">Ergebnis</th><th>Anmerkung</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<h2>Von Hand auszulösen</h2>
+<p class="note">Ein Browser lässt diese vier Dinge nur nach einem Mausklick zu. Jede Schaltfläche ist zugleich die Prüfung dessen, was sie tut.</p>
+<div class="actions">
+  <button id="btn-clipboard" type="button">Bericht kopieren</button>
+  <button id="btn-download" type="button">Bericht speichern</button>
+  <label class="filebutton" for="file-input">Datei einlesen</label>
+  <input id="file-input" type="file">
+  <button id="btn-picker" type="button">Speicherort wählen</button>
+</div>
+
+<h2>Bericht</h2>
+<p class="note">Falls beide Schaltflächen oben nichts bewirken: den folgenden Text von Hand markieren, kopieren und in eine Nachricht einfügen.</p>
+<textarea id="report" readonly spellcheck="false"></textarea>
+
+<script>
+'use strict'
+
+// Everything here is deliberately defensive. This page runs once, on a machine
+// nobody can look at, and a thrown exception halfway through would replace a
+// report with a blank area and no explanation. So every probe is wrapped, and a
+// probe that fails is itself a finding rather than the end of the run.
+
+var PROBE_VERSION = 2
+var PREFIX = 'promptatelier.probe.'
+var MARKER = PREFIX + 'marker'
+var JOURNAL = PREFIX + 'journal'
+
+var results = []
+var findings = {}
+
+// status: 'ok' | 'fail' | 'warn' | 'info'
+function record (key, label, status, detail, value) {
+  results.push({ key: key, label: label, status: status, detail: detail })
+  findings[key] = { status: status, detail: detail, value: value === undefined ? null : value }
+  draw()
+}
+
+var LABELS = { ok: 'geht', fail: 'geht nicht', warn: 'eingeschränkt', info: 'Angabe' }
+
+function draw () {
+  var body = document.querySelector('#results tbody')
+  var rows = ''
+  for (var i = 0; i < results.length; i++) {
+    var row = results[i]
+    rows += '<tr><td class="what">' + esc(row.label) + '</td>' +
+            '<td><span class="tag tag-' + row.status + '">' + LABELS[row.status] + '</span></td>' +
+            '<td class="detail">' + esc(row.detail) + '</td></tr>'
+  }
+  body.innerHTML = rows
+  writeReport()
+}
+
+function esc (text) {
+  return String(text).replace(/[&<>"]/g, function (character) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[character]
+  })
+}
+
+// Runs a probe and turns any exception into a finding. The message is kept:
+// "SecurityError" and "QuotaExceededError" are the two answers this whole file
+// is looking for, and a swallowed exception would hide both.
+function probe (key, label, fn) {
+  try {
+    var outcome = fn()
+    if (outcome) record(key, label, outcome.status, outcome.detail, outcome.value)
+  } catch (error) {
+    record(key, label, 'fail', named(error))
+  }
+}
+
+async function probeAsync (key, label, fn) {
+  try {
+    var outcome = await fn()
+    if (outcome) record(key, label, outcome.status, outcome.detail, outcome.value)
+  } catch (error) {
+    record(key, label, 'fail', named(error))
+  }
+}
+
+function named (error) {
+  if (!error) return 'unbekannter Fehler'
+  return (error.name ? error.name + ': ' : '') + (error.message || String(error))
+}
+
+var thousands = function (number) { return Number(number).toLocaleString('de-DE') }
+
+// --- what this browser is --------------------------------------------------
+
+function describeEnvironment () {
+  var data = navigator.userAgentData
+  var brands = data && data.brands
+    ? data.brands.map(function (b) { return b.brand + ' ' + b.version }).join(', ')
+    : null
+
+  record('protocol', 'Aufrufweg', location.protocol === 'file:' ? 'info' : 'warn',
+    location.protocol === 'file:'
+      ? 'Als Datei geöffnet (file:), genau der geprüfte Fall'
+      : 'Über ' + location.protocol + ' geöffnet, nicht als Datei. Die Beschränkungen gelten hier nicht',
+    location.href)
+
+  record('browser', 'Browser', 'info', brands || navigator.userAgent, navigator.userAgent)
+  record('platform', 'Betriebssystem', 'info',
+    (data && data.platform) || navigator.platform || 'unbekannt')
+}
+</script>
+
+<script>
+'use strict'
+
+// --- the storage the application would live in ------------------------------
+
+// A leftover from a run that was interrupted while measuring. Cleared before
+// anything else, or the next measurement reports the space this page itself
+// forgot to give back.
+function clearLeftovers () {
+  var stale = []
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i)
+    if (key && key.indexOf(PREFIX + 'fill.') === 0) stale.push(key)
+  }
+  for (var j = 0; j < stale.length; j++) localStorage.removeItem(stale[j])
+  return stale.length
+}
+
+// Not `'localStorage' in window` — that is true even where every access throws.
+// Written, read back, removed again; anything less is a guess.
+function probeLocalStorage () {
+  var key = PREFIX + 'selftest'
+  var written = 'ä-' + Date.now()
+
+  localStorage.setItem(key, written)
+  var read = localStorage.getItem(key)
+  localStorage.removeItem(key)
+
+  if (read !== written) {
+    return { status: 'fail', detail: 'Geschrieben und anders zurückgelesen: ' + read }
+  }
+  if (localStorage.getItem(key) !== null) {
+    return { status: 'warn', detail: 'Schreiben und Lesen geht, Löschen nicht' }
+  }
+
+  var stale = clearLeftovers()
+  return {
+    status: 'ok',
+    detail: 'Schreiben, Lesen und Löschen erfolgreich' +
+            (stale ? '. ' + stale + ' Rest(e) einer früheren Messung entfernt' : ''),
+    value: true
+  }
+}
+
+// The visit counter, and the question this file exists for.
+//
+// The first visit can only say that writing worked. Whether the browser keeps
+// it is answered by the second visit, and only if that one happens after the
+// browser has been closed. The instructions ask for the next day for exactly
+// this reason, and the report says how much time actually passed so that a
+// second visit five minutes later is not mistaken for an answer.
+function probeMarker () {
+  var now = new Date()
+  var previous = null
+  try { previous = JSON.parse(localStorage.getItem(MARKER)) } catch (error) { previous = null }
+
+  var marker = previous && previous.firstSeen
+    ? { id: previous.id, firstSeen: previous.firstSeen, visits: (previous.visits || 1) + 1 }
+    : { id: Math.random().toString(36).slice(2, 10), firstSeen: now.toISOString(), visits: 1 }
+
+  marker.lastSeen = now.toISOString()
+  marker.href = location.href
+  localStorage.setItem(MARKER, JSON.stringify(marker))
+
+  // The journal, added in version 2 after a first measurement could not be
+  // read.
+  //
+  // The marker alone holds only the latest state. Three page loads with two
+  // different identifiers came back, and from the two reports it was impossible
+  // to tell whether a window had overwritten another, whether the browser had
+  // discarded something, or whether somebody had simply opened the file twice.
+  // A line per load answers all three, and it costs a few hundred bytes.
+  recordVisit(previous && previous.id, marker.id, now)
+
+  // One key per file location, so that two copies in two folders can see each
+  // other. Under Chromium every file:// page shares one storage area, and that
+  // is worth knowing before it surprises somebody.
+  localStorage.setItem(PREFIX + 'file.' + marker.id, location.href)
+
+  if (marker.visits === 1) {
+    return {
+      status: 'info',
+      detail: 'Erster Aufruf. Die Frage nach der Haltbarkeit beantwortet erst der zweite, nach einem Neustart des Browsers',
+      value: marker
+    }
+  }
+
+  var hours = (now - new Date(marker.firstSeen)) / 3600000
+  var age = hours < 1 ? Math.round(hours * 60) + ' Minuten'
+          : hours < 48 ? Math.round(hours) + ' Stunden'
+          : Math.round(hours / 24) + ' Tagen'
+
+  return {
+    status: hours >= 8 ? 'ok' : 'warn',
+    detail: 'Aufruf Nummer ' + marker.visits + '. Der erste Eintrag ist ' + age + ' alt und noch da' +
+            (hours < 8 ? '. Für eine belastbare Aussage sollte dazwischen der Browser geschlossen worden sein' : ''),
+    value: marker
+  }
+}
+
+// One line per page load: what it found, what it wrote. Capped, because this is
+// evidence and not an archive.
+function recordVisit (found, used, now) {
+  var journal = []
+  try { journal = JSON.parse(localStorage.getItem(JOURNAL)) || [] } catch (error) { journal = [] }
+  if (!Array.isArray(journal)) journal = []
+
+  journal.push({ at: now.toISOString(), saw: found || null, used: used })
+  localStorage.setItem(JOURNAL, JSON.stringify(journal.slice(-20)))
+}
+
+function probeJournal () {
+  var journal = []
+  try { journal = JSON.parse(localStorage.getItem(JOURNAL)) || [] } catch (error) { journal = [] }
+
+  // A load that found nothing although an earlier one had written something is
+  // the signature worth catching: either two windows were open at once, or the
+  // browser dropped the entry in between. Both matter, and both are invisible
+  // in the marker alone.
+  var resets = 0
+  for (var i = 1; i < journal.length; i++) if (!journal[i].saw) resets += 1
+
+  return {
+    status: resets > 0 ? 'warn' : 'info',
+    detail: journal.length + ' Aufruf(e) verzeichnet' +
+            (resets > 0
+              ? '. ' + resets + ' davon fanden keinen Eintrag vor, obwohl vorher einer geschrieben wurde. Ursache ist meist ein zweites gleichzeitig geöffnetes Fenster'
+              : '. Jeder Aufruf hat den Eintrag des vorherigen gefunden'),
+    value: journal
+  }
+}
+
+function probeSharedBucket () {
+  var places = []
+  var ids = []
+
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i)
+    if (key && key.indexOf(PREFIX + 'file.') === 0) {
+      ids.push(key.slice((PREFIX + 'file.').length))
+      var href = localStorage.getItem(key)
+      if (places.indexOf(href) === -1) places.push(href)
+    }
+  }
+
+  // Both numbers are reported; version 1 reported only the first. With one file
+  // opened repeatedly they come apart: one place, several identifiers. That is
+  // precisely the case that was unreadable before.
+  var summary = places.length + ' Ablageort(e), ' + ids.length + ' Kennung(en)'
+
+  if (places.length > 1) {
+    return {
+      status: 'warn',
+      detail: summary + '. Mehrere Kopien teilen sich denselben Speicher. Sie zehren an derselben Grenze und können einander lesen',
+      value: { places: places, ids: ids }
+    }
+  }
+  if (ids.length > 1) {
+    return {
+      status: 'warn',
+      detail: summary + '. Ein Ablageort, aber mehrere Bestände. Ein früherer Aufruf hat seinen Eintrag verloren',
+      value: { places: places, ids: ids }
+    }
+  }
+  return { status: 'info', detail: summary + '. Bisher nur diese eine Kopie gesehen', value: { places: places, ids: ids } }
+}
+
+// How much still fits. Measured by filling until the browser refuses, then
+// giving everything back.
+//
+// This measures the **free** space, not the total: whatever else lives in this
+// storage area is already occupying part of it. For the question at hand that is
+// the more useful number anyway.
+function measureQuota (sample) {
+  var CHUNK = 32768
+  var block = new Array(CHUNK + 1).join(sample)
+  var keys = []
+  var characters = 0
+  var stopped = null
+
+  try {
+    for (var i = 0; i < 400; i++) {
+      var key = PREFIX + 'fill.' + i
+      localStorage.setItem(key, block)
+      keys.push(key)
+      characters += CHUNK
+    }
+  } catch (error) {
+    stopped = error
+  } finally {
+    for (var j = 0; j < keys.length; j++) {
+      try { localStorage.removeItem(keys[j]) } catch (ignored) { /* nothing left to do */ }
+    }
+  }
+
+  return { characters: characters, stopped: stopped ? named(stopped) : null }
+}
+
+// ASCII against an umlaut, and the difference is the answer to a question the
+// capacity planning rests on.
+//
+// 'ü' is one UTF-16 unit and two UTF-8 bytes. If both fills stop at the same
+// character count, the browser counts UTF-16 units, and "5 MB" means 2.5 million
+// characters. If the umlaut stops at half, it counts bytes.
+function probeQuota () {
+  var ascii = measureQuota('a')
+  var umlaut = measureQuota('ü')
+
+  if (ascii.characters === 0) {
+    return { status: 'fail', detail: 'Kein einziger Block ließ sich schreiben. ' + (ascii.stopped || '') }
+  }
+
+  var ratio = umlaut.characters / ascii.characters
+  var counting = ratio > 0.8 ? 'Zeichen (UTF-16)' : ratio < 0.6 ? 'Byte (UTF-8)' : 'unklar'
+
+  return {
+    status: ascii.characters >= 1200000 ? 'ok' : 'warn',
+    detail: 'Frei: ' + thousands(ascii.characters) + ' Zeichen ASCII, ' +
+            thousands(umlaut.characters) + ' Zeichen mit Umlaut. Gezählt wird nach ' + counting +
+            (ascii.stopped ? '. Abbruch mit ' + ascii.stopped : ''),
+    value: { ascii: ascii.characters, umlaut: umlaut.characters, counting: counting, stopped: ascii.stopped }
+  }
+}
+
+// Chromium treats a file:// page as an opaque origin and refuses. Firefox does
+// not. Whether it is available decides more than capacity: a handle to a real
+// file on disk can only be kept here, so without it the best storage tier
+// degrades from automatic to one click per session.
+function probeIndexedDb () {
+  return new Promise(function (resolve) {
+    if (!window.indexedDB) return resolve({ status: 'fail', detail: 'indexedDB ist nicht vorhanden' })
+
+    var timer = setTimeout(function () {
+      resolve({ status: 'fail', detail: 'Öffnen blieb ohne Antwort (10 s). In Chromium ist das die übliche Form der Ablehnung' })
+    }, 10000)
+
+    var request
+    try {
+      request = indexedDB.open(PREFIX + 'db', 1)
+    } catch (error) {
+      clearTimeout(timer)
+      return resolve({ status: 'fail', detail: named(error) })
+    }
+
+    request.onupgradeneeded = function () { request.result.createObjectStore('probe') }
+    request.onerror = function () {
+      clearTimeout(timer)
+      resolve({ status: 'fail', detail: named(request.error) })
+    }
+
+    request.onsuccess = function () {
+      clearTimeout(timer)
+      var db = request.result
+      try {
+        var transaction = db.transaction('probe', 'readwrite')
+        var store = transaction.objectStore('probe')
+        store.put({ written: new Date(), nested: { works: true } }, 'selftest')
+
+        var reading = store.get('selftest')
+        transaction.oncomplete = function () {
+          db.close()
+          var value = reading.result
+          resolve(value && value.nested && value.nested.works
+            ? { status: 'ok', detail: 'Öffnen, Schreiben und Lesen erfolgreich, auch mit strukturierten Werten', value: true }
+            : { status: 'warn', detail: 'Öffnen ging, der zurückgelesene Wert stimmt nicht' })
+        }
+        transaction.onerror = function () {
+          db.close()
+          resolve({ status: 'fail', detail: named(transaction.error) })
+        }
+      } catch (error) {
+        db.close()
+        resolve({ status: 'fail', detail: named(error) })
+      }
+    }
+  })
+}
+</script>
+
+<script>
+'use strict'
+
+// --- what the application would need besides storage ------------------------
+
+// Not in scope, but the fallback if a library ever outgrows the space. Measured
+// here because the answer costs three lines while somebody is already looking.
+async function probeCompression () {
+  if (!window.CompressionStream) {
+    return { status: 'warn', detail: 'CompressionStream fehlt. Nur nötig, falls der Speicher einmal knapp wird' }
+  }
+
+  var text = new Array(200).join('Schreibe einen Blogartikel über {{thema}}. ')
+  var stream = new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'))
+  var packed = await new Response(stream).arrayBuffer()
+  var factor = (new Blob([text]).size / packed.byteLength).toFixed(1)
+
+  // The factor is high because the sample is the same sentence 199 times. It
+  // says the machinery works, not what compression would be worth: on real
+  // prompt data the measured figure is 5,4.
+  return {
+    status: 'ok',
+    detail: 'gzip im Browser vorhanden und lauffähig (Faktor ' + factor + ' auf absichtlich eintönigem Text)',
+    value: Number(factor)
+  }
+}
+
+// The search normalisation and the sort order both hang on these two.
+// `normalize('NFD')` is what strips accents, and without it the search would
+// silently stop finding every word carrying one.
+function probeTextHandling () {
+  // 'Größe' becomes 'Große': the umlaut decomposes and its mark comes off, the
+  // sharp s stays because it is a letter of its own and not a letter carrying a
+  // mark. That is exactly why the search normalisation maps ß by hand and
+  // leaves the accents to this step.
+  var stripped = 'Café Größe'.normalize('NFD').replace(/\p{Mn}/gu, '')
+  var sorted = ['Zebra', 'Ähre', 'apple', 'Œuvre'].sort(new Intl.Collator('de').compare).join(' ')
+
+  if (stripped !== 'Cafe Große') {
+    return { status: 'fail', detail: 'Zerlegung liefert unerwartet: ' + stripped }
+  }
+  return { status: 'ok', detail: 'Akzente abtrennbar, Sortierung nach Alphabet: ' + sorted, value: sorted }
+}
+
+// Two windows on one storage area overwrite each other, and the loser notices
+// nothing. This is how the second window would be recognised.
+function probeBroadcast () {
+  if (!window.BroadcastChannel) {
+    return { status: 'warn', detail: 'BroadcastChannel fehlt. Das storage-Ereignis bliebe als Rückfall' }
+  }
+  var channel = new BroadcastChannel(PREFIX + 'ping')
+  channel.postMessage('ping')
+  channel.close()
+  return { status: 'ok', detail: 'Vorhanden. Ein zweites geöffnetes Fenster wäre erkennbar', value: true }
+}
+
+function probeStructuredClone () {
+  if (!window.structuredClone) {
+    return { status: 'warn', detail: 'structuredClone fehlt. Für den Bestand entbehrlich' }
+  }
+  var copy = structuredClone({ a: [1, 2], b: new Date(0) })
+  return copy.b instanceof Date
+    ? { status: 'ok', detail: 'Vorhanden', value: true }
+    : { status: 'warn', detail: 'Vorhanden, aber unvollständig' }
+}
+
+function probeSavePicker () {
+  return 'showSaveFilePicker' in window
+    ? { status: 'ok', detail: 'Vorhanden. Ob er benutzbar ist, sagt erst die Schaltfläche unten', value: true }
+    : { status: 'warn', detail: 'Nicht vorhanden. Firefox und Safari bieten ihn nicht. Der Bestand liegt dann im Browser statt in einer Datei', value: false }
+}
+</script>
+
+<script>
+'use strict'
+
+// --- the four things a browser only allows after a click --------------------
+//
+// Each button is the check of the thing it does. The download button is the
+// export path, the copy button is FA-305, the file input is the import path.
+// If one of them fails, the report says so — and the text area at the bottom
+// stays as the way to send the report anyway.
+
+function wire () {
+  document.getElementById('btn-download').addEventListener('click', function () {
+    probe('download', 'Datei herausgeben (Export)', function () {
+      var url = URL.createObjectURL(new Blob([reportText()], { type: 'text/plain' }))
+      var anchor = document.createElement('a')
+      anchor.href = url
+      anchor.download = 'prompt-atelier-pruefung.txt'
+      document.body.appendChild(anchor)
+      anchor.click()
+      anchor.remove()
+      setTimeout(function () { URL.revokeObjectURL(url) }, 0)
+      return { status: 'ok', detail: 'Herunterladen ausgelöst. Bitte melden, ob die Datei tatsächlich angekommen ist', value: true }
+    })
+  })
+
+  document.getElementById('btn-clipboard').addEventListener('click', async function () {
+    var area = document.getElementById('report')
+    await probeAsync('clipboard', 'In die Zwischenablage kopieren', async function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(reportText())
+        return { status: 'ok', detail: 'Über navigator.clipboard kopiert', value: 'clipboard' }
+      }
+      area.removeAttribute('readonly')
+      area.select()
+      var worked = document.execCommand('copy')
+      area.setAttribute('readonly', '')
+      return worked
+        ? { status: 'warn', detail: 'Nur über den alten Weg execCommand kopiert', value: 'execCommand' }
+        : { status: 'fail', detail: 'Beide Wege abgelehnt. Bitte den Text unten von Hand markieren' }
+    })
+  })
+
+  document.getElementById('file-input').addEventListener('change', function (event) {
+    var file = event.target.files && event.target.files[0]
+    if (!file) return
+
+    var reader = new FileReader()
+    reader.onload = function () {
+      record('fileread', 'Datei einlesen (Import)', 'ok',
+        'Gelesen: ' + file.name + ', ' + thousands(reader.result.length) + ' Zeichen', file.name)
+    }
+    reader.onerror = function () {
+      record('fileread', 'Datei einlesen (Import)', 'fail', named(reader.error))
+    }
+    reader.readAsText(file)
+  })
+
+  document.getElementById('btn-picker').addEventListener('click', async function () {
+    await probeAsync('pickerUsed', 'Speicherort auf der Festplatte wählen', async function () {
+      if (!('showSaveFilePicker' in window)) {
+        return { status: 'fail', detail: 'showSaveFilePicker ist in diesem Browser nicht vorhanden' }
+      }
+
+      var handle = await window.showSaveFilePicker({
+        suggestedName: 'prompt-atelier-pruefung.txt',
+        types: [{ description: 'Textdatei', accept: { 'text/plain': ['.txt'] } }]
+      })
+
+      var writer = await handle.createWritable()
+      await writer.write(reportText())
+      await writer.close()
+
+      // The handle only survives a restart if IndexedDB takes it. That is the
+      // dependency between the two best storage tiers, and this is where it
+      // shows up as a yes or a no.
+      var kept = await keepHandle(handle)
+      return {
+        status: 'ok',
+        detail: 'Geschrieben. ' + (kept
+          ? 'Der Zugriff wurde gespeichert. Beim nächsten Aufruf zeigt der Bericht, ob er noch gilt'
+          : 'Der Zugriff ließ sich nicht speichern, er gälte also nur für diese Sitzung'),
+        value: { written: true, kept: kept }
+      }
+    })
+  })
+}
+
+function keepHandle (handle) {
+  return new Promise(function (resolve) {
+    if (!window.indexedDB) return resolve(false)
+    var request = indexedDB.open(PREFIX + 'db', 1)
+    request.onupgradeneeded = function () { request.result.createObjectStore('probe') }
+    request.onerror = function () { resolve(false) }
+    request.onsuccess = function () {
+      var db = request.result
+      try {
+        var transaction = db.transaction('probe', 'readwrite')
+        transaction.objectStore('probe').put(handle, 'handle')
+        transaction.oncomplete = function () { db.close(); resolve(true) }
+        transaction.onerror = function () { db.close(); resolve(false) }
+      } catch (error) { db.close(); resolve(false) }
+    }
+  })
+}
+
+// On a later visit: is a handle stored from last time, and does it still open?
+function probeStoredHandle () {
+  return new Promise(function (resolve) {
+    if (!window.indexedDB) return resolve(null)
+
+    // Same guard as in probeIndexedDb, and for the same reason: a refusal here
+    // arrives as silence rather than as an error, and an unguarded await on
+    // silence stops the whole run just before the report is written.
+    var settled = false
+    var finish = function (outcome) { if (!settled) { settled = true; resolve(outcome) } }
+    setTimeout(function () { finish(null) }, 10000)
+
+    var request
+    try {
+      request = indexedDB.open(PREFIX + 'db', 1)
+    } catch (error) { return finish(null) }
+
+    request.onupgradeneeded = function () { request.result.createObjectStore('probe') }
+    request.onerror = function () { finish(null) }
+    request.onsuccess = function () {
+      var db = request.result
+      try {
+        var reading = db.transaction('probe', 'readonly').objectStore('probe').get('handle')
+        reading.onsuccess = async function () {
+          var handle = reading.result
+          db.close()
+          if (!handle) return finish(null)
+          try {
+            var permission = await handle.queryPermission({ mode: 'readwrite' })
+            finish({
+              status: permission === 'granted' ? 'ok' : 'warn',
+              detail: permission === 'granted'
+                ? 'Der beim letzten Mal gewählte Zugriff gilt noch. Das ist der beste erreichbare Zustand'
+                : 'Der Zugriff ist gespeichert, muss aber wieder erlaubt werden (' + permission + '). Ein Klick je Sitzung',
+              value: permission
+            })
+          } catch (error) {
+            finish({ status: 'warn', detail: 'Gespeichert, aber nicht mehr prüfbar: ' + named(error) })
+          }
+        }
+        reading.onerror = function () { db.close(); finish(null) }
+      } catch (error) { db.close(); finish(null) }
+    }
+  })
+}
+
+// --- the report -------------------------------------------------------------
+
+function reportText () {
+  return document.getElementById('report').value
+}
+
+function writeReport () {
+  var lines = []
+  lines.push('Prompt Atelier — Prüfung des Arbeitsplatzes')
+  lines.push('Prüfdatei Fassung ' + PROBE_VERSION + ', erzeugt ' + new Date().toISOString())
+  lines.push('')
+
+  for (var i = 0; i < results.length; i++) {
+    var row = results[i]
+    lines.push(pad('[' + LABELS[row.status] + ']') + ' ' + row.label)
+    lines.push('                  ' + row.detail)
+  }
+
+  lines.push('')
+  lines.push('--- für die Auswertung, bitte mitschicken ---')
+  lines.push(JSON.stringify({ probe: PROBE_VERSION, at: new Date().toISOString(), findings: findings }, null, 1))
+
+  document.getElementById('report').value = lines.join('\n')
+}
+
+function pad (text) {
+  while (text.length < 17) text += ' '
+  return text
+}
+
+// --- the run ----------------------------------------------------------------
+
+async function run () {
+  // The first thing, and the reason it is the first thing: if this line never
+  // executes, the banner stays and says so.
+  var banner = document.getElementById('boot')
+  if (banner) banner.remove()
+
+  record('script', 'Eingebettetes Skript', 'ok', 'Gestartet. Damit ist die Bauweise als Einzeldatei möglich', true)
+
+  describeEnvironment()
+  wire()
+
+  var storageWorks = false
+  probe('localstorage', 'Speicher im Browser (localStorage)', function () {
+    var outcome = probeLocalStorage()
+    storageWorks = outcome.status === 'ok'
+    return outcome
+  })
+
+  if (storageWorks) {
+    probe('marker', 'Haltbarkeit über Aufrufe hinweg', probeMarker)
+    probe('journal', 'Verzeichnis der Aufrufe', probeJournal)
+    probe('shared', 'Mehrere Kopien dieser Datei', probeSharedBucket)
+    probe('quota', 'Verfügbarer Platz', probeQuota)
+  } else {
+    record('marker', 'Haltbarkeit über Aufrufe hinweg', 'fail', 'Ohne Speicher nicht prüfbar')
+    record('quota', 'Verfügbarer Platz', 'fail', 'Ohne Speicher nicht prüfbar')
+  }
+
+  await probeAsync('indexeddb', 'Größerer Speicher (IndexedDB)', probeIndexedDb)
+
+  var stored = await probeStoredHandle()
+  if (stored) record('handle', 'Zugriff auf eine echte Datei, gespeichert', stored.status, stored.detail, stored.value)
+
+  probe('pickerAvailable', 'Zugriff auf eine echte Datei vorhanden', probeSavePicker)
+  await probeAsync('compression', 'Verdichtung (gzip)', probeCompression)
+  probe('text', 'Umlaute und Sortierung', probeTextHandling)
+  probe('broadcast', 'Zweites Fenster erkennbar', probeBroadcast)
+  probe('clone', 'Strukturierte Kopie', probeStructuredClone)
+
+  record('done', 'Selbsttätiger Teil', 'ok',
+    'Abgeschlossen. Jetzt bitte die vier Schaltflächen betätigen', true)
+}
+
+run().catch(function (error) {
+  record('crash', 'Ablauf der Prüfung', 'fail', named(error))
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+{
+  "en": {
+    "storage": {
+      "unsaved": "{count} unsaved",
+      "memory_only": "This browser is not storing anything. Everything is lost when the window closes — export before you leave.",
+      "nearly_full": "The browser storage is nearly full. Export now, and remove what you no longer need.",
+      "full": "The browser storage is full. The last change is only in memory — export now.",
+      "second_window": "This file is already open in another window. Nothing is changed here, so that the two do not overwrite each other.",
+      "newer": "This collection was written by a newer version. Nothing is changed here. Use the newer version, or import an export file.",
+      "unreadable": "The stored collection could not be read. Nothing is changed here, so that nothing is lost. An export file can be imported.",
+      "here": "Stored in: {tier}",
+      "tier": {
+        "file": "File on disk",
+        "indexeddb": "Browser storage",
+        "localstorage": "Browser storage, limited",
+        "memory": "Nothing is stored",
+        "unknown": "Unknown"
+      },
+      "file": {
+        "offer": "Also save to a file on disk …",
+        "ready": "Also saved to “{name}” on every change.",
+        "locked": "Your collection is to be saved to “{name}”. The browser needs your confirmation once per session for that.",
+        "unlock": "Confirm now",
+        "failed": "“{name}” could not be written: {reason}",
+        "retry": "Choose another file …",
+        "release": "Stop saving there",
+        "released": "Nothing is being saved to disk any more."
+      }
+    },
+    "nano": {
+      "trash": {
+        "deleted": "deleted {when}",
+        "expiry": "{days} days left",
+        "expiry_today": "goes at the next start",
+        "expiry_unknown": "stays — the date cannot be read",
+        "swept": "{count} prompts had been in the trash for more than 30 days and were removed for good.",
+        "swept_one": "“{title}” had been in the trash for more than 30 days and was removed for good."
+      },
+      "relocate": {
+        "duplicate_hint": "The copy is a draft, visible only to you, and is called “… (Kopie)” to begin with. It opens in the editor afterwards so you can give it a name."
+      },
+      "firstrun": {
+        "title": "Welcome to Prompt Atelier Nano",
+        "lead": "How would you like to start? Either way is reversible — examples can be deleted, and you can add your own prompts at any time.",
+        "take": "Start with 55 examples",
+        "decline": "Start empty",
+        "note": "Your prompts stay in this browser. Nothing is sent anywhere — and nothing is truly safe until you have exported it."
+      },
+      "app": {
+        "name": "Prompt Atelier Nano",
+        "origin": "Version {app}, built on {built} · based on Prompt Atelier {source}, taken on {synced}"
+      }
+    }
+  },
+  "de": {
+    "storage": {
+      "unsaved": "{count} ungesichert",
+      "memory_only": "Dieser Browser speichert nichts. Beim Schließen des Fensters ist alles weg — bitte vorher exportieren.",
+      "nearly_full": "Der Browserspeicher ist fast voll. Jetzt exportieren und entfernen, was nicht mehr gebraucht wird.",
+      "full": "Der Browserspeicher ist voll. Die letzte Änderung liegt nur im Arbeitsspeicher — bitte jetzt exportieren.",
+      "second_window": "Diese Datei ist bereits in einem anderen Fenster offen. Hier wird nichts geändert, damit die beiden sich nicht überschreiben.",
+      "newer": "Diese Sammlung stammt aus einer neueren Version. Hier wird nichts geändert. Bitte die neuere Version benutzen oder eine Exportdatei einlesen.",
+      "unreadable": "Die gespeicherte Sammlung ließ sich nicht lesen. Hier wird nichts geändert, damit nichts verlorengeht. Eine Exportdatei lässt sich einlesen.",
+      "here": "Ablage: {tier}",
+      "tier": {
+        "file": "Datei auf der Festplatte",
+        "indexeddb": "Browserspeicher",
+        "localstorage": "Browserspeicher, begrenzt",
+        "memory": "Es wird nichts gespeichert",
+        "unknown": "Unbekannt"
+      },
+      "file": {
+        "offer": "Zusätzlich in eine Datei auf der Festplatte sichern …",
+        "ready": "Wird bei jeder Änderung zusätzlich in „{name}“ gesichert.",
+        "locked": "Die Sammlung soll in „{name}“ gesichert werden. Der Browser braucht dafür einmal je Sitzung Ihre Bestätigung.",
+        "unlock": "Jetzt bestätigen",
+        "failed": "In „{name}“ konnte nicht geschrieben werden: {reason}",
+        "retry": "Andere Datei wählen …",
+        "release": "Nicht mehr dorthin sichern",
+        "released": "Es wird nichts mehr auf die Festplatte gesichert."
+      }
+    },
+    "nano": {
+      "trash": {
+        "deleted": "{when} gelöscht",
+        "expiry": "noch {days} Tage",
+        "expiry_today": "geht beim nächsten Start",
+        "expiry_unknown": "bleibt liegen — das Datum ist nicht lesbar",
+        "swept": "{count} Prompts lagen länger als 30 Tage im Papierkorb und wurden endgültig entfernt.",
+        "swept_one": "„{title}“ lag länger als 30 Tage im Papierkorb und wurde endgültig entfernt."
+      },
+      "relocate": {
+        "duplicate_hint": "Die Kopie ist ein Entwurf, den nur Sie sehen, und heißt zunächst „… (Kopie)“. Sie landet anschließend im Editor, damit Sie ihr einen Namen geben können."
+      },
+      "firstrun": {
+        "title": "Willkommen bei Prompt Atelier Nano",
+        "lead": "Womit möchten Sie anfangen? Beides lässt sich später ändern — Beispiele können Sie löschen, und eigene Prompts legen Sie jederzeit an.",
+        "take": "Mit 55 Beispielen anfangen",
+        "decline": "Leer anfangen",
+        "note": "Ihre Prompts bleiben in diesem Browser. Sie werden nirgendwohin gesendet — und sie sind erst dann wirklich sicher, wenn Sie sie exportiert haben."
+      },
+      "app": {
+        "name": "Prompt Atelier Nano",
+        "origin": "Version {app}, gebaut am {built} · basiert auf Prompt Atelier {source}, übernommen am {synced}"
+      }
+    }
+  },
+  "fr": {
+    "storage": {
+      "unsaved": "{count} à enregistrer",
+      "memory_only": "Ce navigateur n'enregistre rien. Tout est perdu à la fermeture de la fenêtre — exportez avant de partir.",
+      "nearly_full": "Le stockage du navigateur est presque plein. Exportez maintenant et supprimez ce dont vous n'avez plus besoin.",
+      "full": "Le stockage du navigateur est plein. La dernière modification n'est qu'en mémoire vive — exportez maintenant.",
+      "second_window": "Ce fichier est déjà ouvert dans une autre fenêtre. Rien n'est modifié ici, pour que les deux ne s'écrasent pas.",
+      "newer": "Cette collection a été écrite par une version plus récente. Rien n'est modifié ici. Utilisez la version plus récente ou importez un fichier d'export.",
+      "unreadable": "La collection enregistrée n'a pas pu être lue. Rien n'est modifié ici, pour que rien ne se perde. Un fichier d'export peut être importé.",
+      "here": "Emplacement : {tier}",
+      "tier": {
+        "file": "Fichier sur le disque",
+        "indexeddb": "Stockage du navigateur",
+        "localstorage": "Stockage du navigateur, limité",
+        "memory": "Rien n'est enregistré",
+        "unknown": "Inconnu"
+      },
+      "file": {
+        "offer": "Enregistrer aussi dans un fichier sur le disque …",
+        "ready": "Enregistré aussi dans « {name} » à chaque modification.",
+        "locked": "La collection doit être enregistrée dans « {name} ». Le navigateur a besoin de votre confirmation une fois par session pour cela.",
+        "unlock": "Confirmer maintenant",
+        "failed": "Impossible d'écrire dans « {name} » : {reason}",
+        "retry": "Choisir un autre fichier …",
+        "release": "Ne plus y enregistrer",
+        "released": "Plus rien n'est enregistré sur le disque."
+      }
+    },
+    "nano": {
+      "trash": {
+        "deleted": "supprimé {when}",
+        "expiry": "encore {days} jours",
+        "expiry_today": "part au prochain démarrage",
+        "expiry_unknown": "reste — la date n'est pas lisible",
+        "swept": "{count} prompts étaient dans la corbeille depuis plus de 30 jours et ont été supprimés définitivement.",
+        "swept_one": "« {title} » était dans la corbeille depuis plus de 30 jours et a été supprimé définitivement."
+      },
+      "relocate": {
+        "duplicate_hint": "La copie est un brouillon que vous seul voyez, et elle s'appelle d'abord « … (Kopie) ». Elle s'ouvre ensuite dans l'éditeur pour que vous puissiez lui donner un nom."
+      },
+      "firstrun": {
+        "title": "Bienvenue dans Prompt Atelier Nano",
+        "lead": "Comment souhaitez-vous commencer ? Les deux se changent plus tard — les exemples peuvent être supprimés, et vous créez vos propres prompts à tout moment.",
+        "take": "Commencer avec 55 exemples",
+        "decline": "Commencer à vide",
+        "note": "Vos prompts restent dans ce navigateur. Rien n'est envoyé nulle part — et rien n'est vraiment à l'abri tant que vous ne l'avez pas exporté."
+      },
+      "app": {
+        "name": "Prompt Atelier Nano",
+        "origin": "Version {app}, compilée le {built} · basée sur Prompt Atelier {source}, reprise le {synced}"
+      }
+    }
+  },
+  "it": {
+    "storage": {
+      "unsaved": "{count} da salvare",
+      "memory_only": "Questo browser non memorizza nulla. Alla chiusura della finestra tutto va perso — esporta prima di uscire.",
+      "nearly_full": "L'archiviazione del browser è quasi piena. Esporta ora ed elimina ciò che non ti serve più.",
+      "full": "L'archiviazione del browser è piena. L'ultima modifica è solo in memoria — esporta ora.",
+      "second_window": "Questo file è già aperto in un'altra finestra. Qui non viene modificato nulla, così le due finestre non si sovrascrivono a vicenda.",
+      "newer": "Questa raccolta è stata scritta da una versione più recente. Qui non viene modificato nulla. Usa la versione più recente oppure importa un file di esportazione.",
+      "unreadable": "Non è stato possibile leggere la raccolta memorizzata. Qui non viene modificato nulla, così non si perde niente. Un file di esportazione può essere importato.",
+      "here": "Posizione: {tier}",
+      "tier": {
+        "file": "File sul disco",
+        "indexeddb": "Archiviazione del browser",
+        "localstorage": "Archiviazione del browser, limitata",
+        "memory": "Non viene memorizzato nulla",
+        "unknown": "Sconosciuta"
+      },
+      "file": {
+        "offer": "Salva anche in un file sul disco …",
+        "ready": "Salvato anche in « {name} » a ogni modifica.",
+        "locked": "La raccolta va salvata in « {name} ». Per questo il browser ha bisogno della tua conferma una volta per sessione.",
+        "unlock": "Conferma ora",
+        "failed": "Non è stato possibile scrivere in « {name} »: {reason}",
+        "retry": "Scegli un altro file …",
+        "release": "Non salvare più lì",
+        "released": "Non viene più salvato nulla sul disco."
+      }
+    },
+    "nano": {
+      "trash": {
+        "deleted": "eliminato {when}",
+        "expiry": "ancora {days} giorni",
+        "expiry_today": "sparisce al prossimo avvio",
+        "expiry_unknown": "resta — la data non è leggibile",
+        "swept": "{count} prompt erano nel cestino da più di 30 giorni e sono stati eliminati definitivamente.",
+        "swept_one": "« {title} » era nel cestino da più di 30 giorni ed è stato eliminato definitivamente."
+      },
+      "relocate": {
+        "duplicate_hint": "La copia è una bozza che vedi solo tu e all'inizio si chiama « … (Kopie) ». Poi si apre nell'editor, così puoi darle un nome."
+      },
+      "firstrun": {
+        "title": "Ti diamo il benvenuto in Prompt Atelier Nano",
+        "lead": "Come vuoi iniziare? Entrambe le scelte si possono cambiare — gli esempi si possono eliminare e i tuoi prompt li crei quando vuoi.",
+        "take": "Inizia con 55 esempi",
+        "decline": "Inizia da zero",
+        "note": "I tuoi prompt restano in questo browser. Non viene inviato nulla da nessuna parte — e nulla è davvero al sicuro finché non lo hai esportato."
+      },
+      "app": {
+        "name": "Prompt Atelier Nano",
+        "origin": "Versione {app}, compilata il {built} · basata su Prompt Atelier {source}, ripresa il {synced}"
+      }
+    }
+  },
+  "es": {
+    "storage": {
+      "unsaved": "{count} sin guardar",
+      "memory_only": "Este navegador no guarda nada. Todo se pierde al cerrar la ventana — exporte antes de salir.",
+      "nearly_full": "El almacenamiento del navegador está casi lleno. Exporte ahora y elimine lo que ya no necesite.",
+      "full": "El almacenamiento del navegador está lleno. El último cambio solo está en la memoria — exporte ahora.",
+      "second_window": "Este archivo ya está abierto en otra ventana. Aquí no se modifica nada, para que las dos no se sobrescriban.",
+      "newer": "Esta colección fue escrita por una versión más reciente. Aquí no se modifica nada. Use la versión más reciente o importe un archivo de exportación.",
+      "unreadable": "No se ha podido leer la colección guardada. Aquí no se modifica nada, para que no se pierda nada. Se puede importar un archivo de exportación.",
+      "here": "Ubicación: {tier}",
+      "tier": {
+        "file": "Archivo en el disco",
+        "indexeddb": "Almacenamiento del navegador",
+        "localstorage": "Almacenamiento del navegador, limitado",
+        "memory": "No se guarda nada",
+        "unknown": "Desconocida"
+      },
+      "file": {
+        "offer": "Guardar también en un archivo en el disco …",
+        "ready": "Se guarda también en « {name} » con cada cambio.",
+        "locked": "La colección debe guardarse en « {name} ». Para ello el navegador necesita su confirmación una vez por sesión.",
+        "unlock": "Confirmar ahora",
+        "failed": "No se ha podido escribir en « {name} »: {reason}",
+        "retry": "Elegir otro archivo …",
+        "release": "Dejar de guardar ahí",
+        "released": "Ya no se guarda nada en el disco."
+      }
+    },
+    "nano": {
+      "trash": {
+        "deleted": "eliminado {when}",
+        "expiry": "quedan {days} días",
+        "expiry_today": "se va en el próximo inicio",
+        "expiry_unknown": "se queda — la fecha no se puede leer",
+        "swept": "{count} prompts llevaban más de 30 días en la papelera y se han eliminado definitivamente.",
+        "swept_one": "« {title} » llevaba más de 30 días en la papelera y se ha eliminado definitivamente."
+      },
+      "relocate": {
+        "duplicate_hint": "La copia es un borrador que solo ve usted y al principio se llama « … (Kopie) ». Después se abre en el editor para que pueda darle un nombre."
+      },
+      "firstrun": {
+        "title": "Le damos la bienvenida a Prompt Atelier Nano",
+        "lead": "¿Cómo quiere empezar? Ambas opciones se pueden cambiar después — los ejemplos se pueden eliminar y sus propios prompts los crea cuando quiera.",
+        "take": "Empezar con 55 ejemplos",
+        "decline": "Empezar vacío",
+        "note": "Sus prompts se quedan en este navegador. No se envía nada a ninguna parte — y nada está realmente a salvo hasta que lo haya exportado."
+      },
+      "app": {
+        "name": "Prompt Atelier Nano",
+        "origin": "Versión {app}, compilada el {built} · basada en Prompt Atelier {source}, tomada el {synced}"
+      }
+    }
+  }
+}

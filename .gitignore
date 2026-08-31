@@ -1,0 +1,30 @@
+# vendor/ is derived, not written. It is produced by scripts/sync.mjs from the
+# Prompt Atelier checkout beside this repository. What is versioned instead is
+# sync.manifest.json, whose checksums say exactly which state was taken.
+vendor/
+
+node_modules/
+
+# Build results. dist/ is the application as one file, dist-tests/ is the test
+# bench built the same way, release/ is what gets handed over. All three are
+# produced by scripts and belong on the release page rather than in the history.
+dist/
+dist-tests/
+release/
+
+# Written by the development server.
+.vite/
+
+# The report the workstation check offers for download. Two of them once sat in
+# probe/ carrying local paths and had to be taken out by hand.
+probe/*.txt
+
+# Local editor settings. They tend to carry the paths of the machine they were
+# written on, and this repository promises to carry none.
+.vscode/
+.idea/
+
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

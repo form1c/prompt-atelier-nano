@@ -1,0 +1,262 @@
+{
+  "$comment": "Written by scripts/sync.mjs. Edit `files` by hand, never `sha256`, `syncedAt` or `sourceVersion`.",
+  "source": "../../PromptStorage/project",
+  "syncedAt": "2026-08-31T18:29:49.439Z",
+  "sourceVersion": "1.0.0",
+  "files": [
+    {
+      "from": "frontend/src/util/rendering.js",
+      "to": "util/rendering.js",
+      "sha256": "5a2697c0336c016f1c4ec80569b324ee38e2bc9082eb65a85437c1b3dd029b32"
+    },
+    {
+      "from": "frontend/src/util/draft.js",
+      "to": "util/draft.js",
+      "sha256": "6b39c488ae042f588bb630d7d74449a740f77eed12abfd3808e9b62863bd145f"
+    },
+    {
+      "from": "frontend/src/util/filters.js",
+      "to": "util/filters.js",
+      "sha256": "a4fb372b5b9029d687e459154b4bf669681f50dfc37605eaf351e21f5cd48154"
+    },
+    {
+      "from": "frontend/src/util/highlight.js",
+      "to": "util/highlight.js",
+      "sha256": "1b23a194979a7a71047b6fd8f5f24f9ccab2111c0173fa26949e1967a9882ed6"
+    },
+    {
+      "from": "frontend/src/util/preview.js",
+      "to": "util/preview.js",
+      "sha256": "8a1c56dcced52ca5b39cdb8fa62eb3d4393d651129af06605c09ca8a8c26bb23"
+    },
+    {
+      "from": "frontend/src/util/selection.js",
+      "to": "util/selection.js",
+      "sha256": "83591064747dfd1338383f695a15e75c2a4ad43ceda55333874142634191581a"
+    },
+    {
+      "from": "frontend/src/util/time.js",
+      "to": "util/time.js",
+      "sha256": "ad4fcaafe86989647e9553ceffecc3600af8161172aa62d241484381653b1e27"
+    },
+    {
+      "from": "frontend/src/util/clipboard.js",
+      "to": "util/clipboard.js",
+      "sha256": "46512902782bef7475e660aa463a57145d03764e51d8fd8a04686681c121be3e"
+    },
+    {
+      "from": "frontend/src/util/keyword.js",
+      "to": "util/keyword.js",
+      "sha256": "e17d79841f3cfeb155dcf5cd6cbee1e0164f7cbb126aa66be779a23e0d3b99f4"
+    },
+    {
+      "from": "frontend/src/util/workspace.js",
+      "to": "util/workspace.js",
+      "sha256": "d5f568b97cdccab4b0f68b81f43f203aef3b810d8fd17f968369500d10406a91"
+    },
+    {
+      "from": "frontend/src/util/download.js",
+      "to": "util/download.js",
+      "sha256": "88771dbf585d6d0b99609f61ee1e9c51e195317eddb77e3a3acdde8225a2d3fe"
+    },
+    {
+      "from": "frontend/src/locales/de.json",
+      "to": "locales/de.json",
+      "sha256": "3a02aee9a42ea42c0d09007a84f73e4ba1f13f5141d4efdf989631227c7fbc2a"
+    },
+    {
+      "from": "frontend/src/locales/en.json",
+      "to": "locales/en.json",
+      "sha256": "b5aa2c3016eecde254a5e50b9dad071a8e35ab26b4909d6359f4df7cff0baabb"
+    },
+    {
+      "from": "frontend/src/locales/es.json",
+      "to": "locales/es.json",
+      "sha256": "c88455e6c9ccbc1c6cf6f2354bc2ed2ab5e2a2ed97e45077832e9f76ead68114"
+    },
+    {
+      "from": "frontend/src/locales/fr.json",
+      "to": "locales/fr.json",
+      "sha256": "1a1d21525d8cd061fa1ee180ef75ad547df81e4124419ee16cd0578b72c47262"
+    },
+    {
+      "from": "frontend/src/locales/it.json",
+      "to": "locales/it.json",
+      "sha256": "6310170c4a7bdef060914405539fc226f2f270e53e56c18289d4df4d4f3d1632"
+    },
+    {
+      "from": "frontend/src/components/Icon.vue",
+      "to": "components/Icon.vue",
+      "sha256": "1f94c0f075fe0ada8920e30867f5584aa57ca2553a91bc6fa9b72b54aaaed8d8"
+    },
+    {
+      "from": "frontend/src/components/icons.js",
+      "to": "components/icons.js",
+      "sha256": "396a739ce3ae75b46be7da22d8b3e6fd61bc1679a82f64de3f4caa3395b917ee"
+    },
+    {
+      "from": "frontend/src/components/NoticeHost.vue",
+      "to": "components/NoticeHost.vue",
+      "sha256": "93927632df4c1b0fdf75c311c1b0a0acc87b2c4faa5764800bf02429cd93b9ae"
+    },
+    {
+      "from": "frontend/src/components/EmptyState.vue",
+      "to": "components/EmptyState.vue",
+      "sha256": "b90a795c52e05e0c50ee014b89a70fa44b6517556c0213e5175c3ce1b5f5065c"
+    },
+    {
+      "from": "frontend/src/components/ErrorState.vue",
+      "to": "components/ErrorState.vue",
+      "sha256": "607d6794c09a1019bd4dbd38e8367d8b61eff89d548ddf518de109c970600522"
+    },
+    {
+      "from": "frontend/src/components/LoadingState.vue",
+      "to": "components/LoadingState.vue",
+      "sha256": "f89dda31db62b8fa85c7025bbe9e30f5f575011172cb301aae724a4962c03dc4"
+    },
+    {
+      "from": "frontend/src/components/TagFilter.vue",
+      "to": "components/TagFilter.vue",
+      "sha256": "523376172a7739c1a445d58aa68bc393c55e9bdad763468253452a17f047060d"
+    },
+    {
+      "from": "frontend/src/components/KeywordChips.vue",
+      "to": "components/KeywordChips.vue",
+      "sha256": "f7279e60178f015a0caecbb06207b1c257bcd1de5dc14b2c63cea547abd1b096"
+    },
+    {
+      "from": "frontend/src/components/SelectionBar.vue",
+      "to": "components/SelectionBar.vue",
+      "sha256": "970e20023ff6a4740ddb9a3b7a49d3d03a4422cde3526ad6afc7be49a0b6d794"
+    },
+    {
+      "from": "frontend/src/components/TagEditor.vue",
+      "to": "components/TagEditor.vue",
+      "sha256": "1f825969552e846bbf2016c42ecf44cd32328daa9773fb28de144a3aea87f021"
+    },
+    {
+      "from": "frontend/src/components/ConfirmDialog.vue",
+      "to": "components/ConfirmDialog.vue",
+      "sha256": "e91ff635fd339bf0e23cda96a29e63014ede112b98a5d32f6be020364347e852"
+    },
+    {
+      "from": "frontend/src/components/VariableForm.vue",
+      "to": "components/VariableForm.vue",
+      "sha256": "39ac8ef4b7ef81d257aa4181ee6a53d53009e22048e8cd075b4f4f36d808ea94"
+    },
+    {
+      "from": "frontend/src/components/VariableEditor.vue",
+      "to": "components/VariableEditor.vue",
+      "sha256": "89f237cb0fc8fb4522912a68dfd87f0a790e53aa3b81142188bc46600e171f83"
+    },
+    {
+      "from": "frontend/src/components/PromptList.vue",
+      "to": "components/PromptList.vue",
+      "sha256": "113907d3ee734c28206ad979af40d8c4385dd2b80c48485cfd555ef4ae478e4d"
+    },
+    {
+      "from": "frontend/src/components/AppShell.vue",
+      "to": "components/AppShell.vue",
+      "shadow": "Header without workspace switcher and sign-out; sidebar and styles copied verbatim, including the version at its foot. Shows only Nano's own version there — where it was built from sits in the title attribute, because two numbers side by side invite the question which one is yours.",
+      "sha256": "8f58f620022dd807e1fe56d8626631ef74abea67949a75d64e3caaa8eb07f305"
+    },
+    {
+      "from": "frontend/src/views/LibraryView.vue",
+      "to": "views/LibraryView.vue",
+      "sha256": "07f36b8c064ebe558b9c784151c3c71b7a6c056a3c47d0d9d6c7e2c0d632ca29"
+    },
+    {
+      "from": "frontend/src/views/PromptView.vue",
+      "to": "views/PromptView.vue",
+      "sha256": "3887f09e6ebde64bf27f4bb38e0458bcd93265b7a98f20bfa8d5ddc6c9439e4b"
+    },
+    {
+      "from": "frontend/src/views/PromptEditorView.vue",
+      "to": "views/PromptEditorView.vue",
+      "sha256": "da4027e5d9d277b043f916175a7d3d0da9f36079a6235a7a17f919941cf2c782"
+    },
+    {
+      "from": "frontend/src/views/KeywordsView.vue",
+      "to": "views/KeywordsView.vue",
+      "sha256": "96505eb9f1ca7b8fd2c200f47494b03134ee105dc83e48b5a1f823ea9e77034a"
+    },
+    {
+      "from": "frontend/src/views/TrashView.vue",
+      "to": "views/TrashView.vue",
+      "shadow": "No account to name as the deleter and one collection to come from; says instead how many days each entry has left, because the clear-out runs at start-up where the person can see it.",
+      "sha256": "6596efec3a8f620e423ebc7a9482d74599e2a20c34f3fa054655eac714d7c815"
+    },
+    {
+      "from": "frontend/src/views/TransferView.vue",
+      "to": "views/TransferView.vue",
+      "sha256": "54b6ed60ae4777a7845061cd11ebc1c0eabc8ea82dc3698ec843e476f1b668d4"
+    },
+    {
+      "from": "frontend/src/views/PromptTransferView.vue",
+      "to": "views/PromptTransferView.vue",
+      "shadow": "The workspace chooser goes with EN-03 — one collection, nothing to choose. What is left is the confirmation and what a copy will be. The move half is gone with it; its route does not exist here.",
+      "sha256": "ae27f50f3bcf1e564e1caf95bd784b829d0889bb15225eb0391c19d413258b30"
+    },
+    {
+      "from": "frontend/src/state/notices.js",
+      "to": "state/notices.js",
+      "sha256": "30e02c83630dd302dbde3e9a09cea873f1e8ad0d36d8d76eb994acf32cac28a7"
+    },
+    {
+      "from": "frontend/src/state/library.js",
+      "to": "state/library.js",
+      "sha256": "fec5feccce7ff54bebbb45baa2dedad2ee17bfcee1332834fb85ad04d890ffd8"
+    },
+    {
+      "from": "frontend/src/state/prompt.js",
+      "to": "state/prompt.js",
+      "sha256": "2e961c589adc49d11a1c0e665cb34ebb4414af9f6dcc6db6c3f73d1631c47b70"
+    },
+    {
+      "from": "frontend/src/styles/base.css",
+      "to": "styles/base.css",
+      "sha256": "701901887da6e1d86a6f65b0339c73c8c0dede64c4d045e84160f1914ea8c0fc"
+    },
+    {
+      "from": "frontend/src/i18n/index.js",
+      "to": "i18n/index.js",
+      "shadow": "Wraps the upstream lookup so that Nano's own sentences — the storage tiers — have somewhere to live without editing the copied language files.",
+      "sha256": "1420a6a71e51ae7249bb79a985e55c3843234eda55cfefddf19dd6a2a2864fc0"
+    },
+    {
+      "from": "frontend/src/api/client.js",
+      "to": "api/client.js",
+      "shadow": "Replaced entirely: dispatches locally instead of over fetch. The seam of the whole project.",
+      "sha256": "6963f93aa494cad0b9331ca6adda673440fed0b399439efc0ac1acc03a3b74f5"
+    },
+    {
+      "from": "frontend/src/router/index.js",
+      "to": "router/index.js",
+      "shadow": "Hash history, fewer routes, no authentication guards.",
+      "sha256": "330012dfb0b082fd0aea5948b59fe6e12527a7793a5e049d9b2b72e6571c5ff5"
+    },
+    {
+      "from": "frontend/src/App.vue",
+      "to": "App.vue",
+      "shadow": "Root without the expired-session overlay: no session can expire.",
+      "sha256": "3be3f439b518f71897e3ed0e7b7725be2a8317c79f369db23f25d17d256e648e"
+    },
+    {
+      "from": "frontend/src/main.js",
+      "to": "main.js",
+      "shadow": "Entry point: no session handler, no revalidation on restore. AP-N3 puts the storage self-check here.",
+      "sha256": "05e765dd4682e0efee2e12d9849a3226192ae7884cb4cbf68bc24bc6eb40baae"
+    },
+    {
+      "from": "examples/examples.json",
+      "to": "examples/examples.json",
+      "sha256": "1544fa20c0e63d851439b908160ef3e62e09464b9f742f9e94d2d101b9bb17f9"
+    },
+    {
+      "from": "tests/vectors/rendering.json",
+      "to": "vectors/rendering.json",
+      "sha256": "093b316690be36022a1605a1a671ee9ac468c8639294b01cec64f6ec4264fe38"
+    }
+  ],
+  "sourceCommit": "aaddd1e (with uncommitted changes)"
+}

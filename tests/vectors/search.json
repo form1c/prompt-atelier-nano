@@ -1,0 +1,446 @@
+{
+  "_note": "Erzeugt von scripts/make-search-vectors.rb aus Prompt Atelier. normalized = Normalization.normalize, tokens = was der FTS5-Tokenizer daraus macht. Die JavaScript-Suche muss beide Schritte zusammen reproduzieren. tokens ist eine MENGE: sortiert und ohne Wiederholung, weil fts5vocab das Woerterbuch des Index ist und weder Reihenfolge noch Haeufigkeit kennt.",
+  "_source": "backend/services/normalization.rb + fts5 unicode61 remove_diacritics 2",
+  "_generated_at": "2026-08-14",
+  "vectors": [
+    {
+      "input": "Größe",
+      "normalized": "grosse",
+      "tokens": [
+        "grosse"
+      ]
+    },
+    {
+      "input": "Groesse",
+      "normalized": "grosse",
+      "tokens": [
+        "grosse"
+      ]
+    },
+    {
+      "input": "Grosse",
+      "normalized": "grosse",
+      "tokens": [
+        "grosse"
+      ]
+    },
+    {
+      "input": "grösse",
+      "normalized": "grosse",
+      "tokens": [
+        "grosse"
+      ]
+    },
+    {
+      "input": "Straße",
+      "normalized": "strasse",
+      "tokens": [
+        "strasse"
+      ]
+    },
+    {
+      "input": "Strasse",
+      "normalized": "strasse",
+      "tokens": [
+        "strasse"
+      ]
+    },
+    {
+      "input": "STRASSE",
+      "normalized": "strasse",
+      "tokens": [
+        "strasse"
+      ]
+    },
+    {
+      "input": "Übung",
+      "normalized": "ubung",
+      "tokens": [
+        "ubung"
+      ]
+    },
+    {
+      "input": "Uebung",
+      "normalized": "ubung",
+      "tokens": [
+        "ubung"
+      ]
+    },
+    {
+      "input": "Ubung",
+      "normalized": "ubung",
+      "tokens": [
+        "ubung"
+      ]
+    },
+    {
+      "input": "Ärger",
+      "normalized": "arger",
+      "tokens": [
+        "arger"
+      ]
+    },
+    {
+      "input": "Aerger",
+      "normalized": "arger",
+      "tokens": [
+        "arger"
+      ]
+    },
+    {
+      "input": "Öl",
+      "normalized": "ol",
+      "tokens": [
+        "ol"
+      ]
+    },
+    {
+      "input": "Oel",
+      "normalized": "ol",
+      "tokens": [
+        "ol"
+      ]
+    },
+    {
+      "input": "Fußgängerübergang",
+      "normalized": "fussgangerubergang",
+      "tokens": [
+        "fussgangerubergang"
+      ]
+    },
+    {
+      "input": "Café",
+      "normalized": "café",
+      "tokens": [
+        "cafe"
+      ]
+    },
+    {
+      "input": "cafe",
+      "normalized": "cafe",
+      "tokens": [
+        "cafe"
+      ]
+    },
+    {
+      "input": "Résumé",
+      "normalized": "résumé",
+      "tokens": [
+        "resume"
+      ]
+    },
+    {
+      "input": "entretien",
+      "normalized": "entretien",
+      "tokens": [
+        "entretien"
+      ]
+    },
+    {
+      "input": "Año",
+      "normalized": "año",
+      "tokens": [
+        "ano"
+      ]
+    },
+    {
+      "input": "nuevo",
+      "normalized": "nuvo",
+      "tokens": [
+        "nuvo"
+      ]
+    },
+    {
+      "input": "niño",
+      "normalized": "niño",
+      "tokens": [
+        "nino"
+      ]
+    },
+    {
+      "input": "Città",
+      "normalized": "città",
+      "tokens": [
+        "citta"
+      ]
+    },
+    {
+      "input": "paesi",
+      "normalized": "pasi",
+      "tokens": [
+        "pasi"
+      ]
+    },
+    {
+      "input": "perché",
+      "normalized": "perché",
+      "tokens": [
+        "perche"
+      ]
+    },
+    {
+      "input": "français",
+      "normalized": "français",
+      "tokens": [
+        "francais"
+      ]
+    },
+    {
+      "input": "garçon",
+      "normalized": "garçon",
+      "tokens": [
+        "garcon"
+      ]
+    },
+    {
+      "input": "élève",
+      "normalized": "élève",
+      "tokens": [
+        "eleve"
+      ]
+    },
+    {
+      "input": "coração",
+      "normalized": "coração",
+      "tokens": [
+        "coracao"
+      ]
+    },
+    {
+      "input": "ação",
+      "normalized": "ação",
+      "tokens": [
+        "acao"
+      ]
+    },
+    {
+      "input": "Łódź",
+      "normalized": "lódź",
+      "tokens": [
+        "lodz"
+      ]
+    },
+    {
+      "input": "rød",
+      "normalized": "rod",
+      "tokens": [
+        "rod"
+      ]
+    },
+    {
+      "input": "Øre",
+      "normalized": "ore",
+      "tokens": [
+        "ore"
+      ]
+    },
+    {
+      "input": "Đakovo",
+      "normalized": "dakovo",
+      "tokens": [
+        "dakovo"
+      ]
+    },
+    {
+      "input": "Cœur",
+      "normalized": "cour",
+      "tokens": [
+        "cour"
+      ]
+    },
+    {
+      "input": "coeur",
+      "normalized": "cour",
+      "tokens": [
+        "cour"
+      ]
+    },
+    {
+      "input": "sœur",
+      "normalized": "sour",
+      "tokens": [
+        "sour"
+      ]
+    },
+    {
+      "input": "Bœuf",
+      "normalized": "bouf",
+      "tokens": [
+        "bouf"
+      ]
+    },
+    {
+      "input": "Æther",
+      "normalized": "ather",
+      "tokens": [
+        "ather"
+      ]
+    },
+    {
+      "input": "aether",
+      "normalized": "ather",
+      "tokens": [
+        "ather"
+      ]
+    },
+    {
+      "input": "Übung",
+      "normalized": "ubung",
+      "tokens": [
+        "ubung"
+      ]
+    },
+    {
+      "input": "Übung",
+      "normalized": "ubung",
+      "tokens": [
+        "ubung"
+      ]
+    },
+    {
+      "input": "Große",
+      "normalized": "grosse",
+      "tokens": [
+        "grosse"
+      ]
+    },
+    {
+      "input": "Café",
+      "normalized": "café",
+      "tokens": [
+        "cafe"
+      ]
+    },
+    {
+      "input": "a1_b",
+      "normalized": "a1_b",
+      "tokens": [
+        "a1",
+        "b"
+      ]
+    },
+    {
+      "input": "snake_case_name",
+      "normalized": "snake_case_name",
+      "tokens": [
+        "case",
+        "name",
+        "snake"
+      ]
+    },
+    {
+      "input": "kebab-case",
+      "normalized": "kebab-case",
+      "tokens": [
+        "case",
+        "kebab"
+      ]
+    },
+    {
+      "input": "dotted.name",
+      "normalized": "dotted.name",
+      "tokens": [
+        "dotted",
+        "name"
+      ]
+    },
+    {
+      "input": "CamelCase",
+      "normalized": "camelcase",
+      "tokens": [
+        "camelcase"
+      ]
+    },
+    {
+      "input": "ABC123",
+      "normalized": "abc123",
+      "tokens": [
+        "abc123"
+      ]
+    },
+    {
+      "input": "2026-08-14",
+      "normalized": "2026-08-14",
+      "tokens": [
+        "08",
+        "14",
+        "2026"
+      ]
+    },
+    {
+      "input": "Ein Satz, mit Zeichen!",
+      "normalized": "ein satz, mit zeichen!",
+      "tokens": [
+        "ein",
+        "mit",
+        "satz",
+        "zeichen"
+      ]
+    },
+    {
+      "input": "  viel   Abstand  ",
+      "normalized": "  viel   abstand  ",
+      "tokens": [
+        "abstand",
+        "viel"
+      ]
+    },
+    {
+      "input": "",
+      "normalized": "",
+      "tokens": [
+
+      ]
+    },
+    {
+      "input": "   ",
+      "normalized": "   ",
+      "tokens": [
+
+      ]
+    },
+    {
+      "input": "---",
+      "normalized": "---",
+      "tokens": [
+
+      ]
+    },
+    {
+      "input": "!!!",
+      "normalized": "!!!",
+      "tokens": [
+
+      ]
+    },
+    {
+      "input": "Blogartikel für Einsteiger",
+      "normalized": "blogartikel fur einsteiger",
+      "tokens": [
+        "blogartikel",
+        "einsteiger",
+        "fur"
+      ]
+    },
+    {
+      "input": "Prüfung der Größe in Straßburg",
+      "normalized": "prufung der grosse in strassburg",
+      "tokens": [
+        "der",
+        "grosse",
+        "in",
+        "prufung",
+        "strassburg"
+      ]
+    },
+    {
+      "input": "Zusammenfassung eines Protokolls",
+      "normalized": "zusammenfassung eines protokolls",
+      "tokens": [
+        "eines",
+        "protokolls",
+        "zusammenfassung"
+      ]
+    }
+  ]
+}

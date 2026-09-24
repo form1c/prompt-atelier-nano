@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Fassung | 1.0 |
-| Stand | 2026-08-15 |
+| Fassung | 1.1 |
+| Stand | 2026-09-24 |
 | Zielgruppe | Wer die Anwendung benutzt |
 | Abgrenzung | Die tägliche Arbeit, von der Haltbarkeit der Daten bis zum Austausch von Prompts. Die Weitergabe an weitere Rechner steht in `installation.de.md` |
 
@@ -95,6 +95,9 @@ Falls Sie unsicher sind, wählen Sie die Beispiele. Sie zeigen den Aufbau eines
 Prompts mit Platzhaltern an fertigen Fällen. Nicht benötigte Beispiele lassen
 sich markieren und gemeinsam löschen.
 
+Die Beispiele kommen in der Sprache der Oberfläche. Eine deutsche Oberfläche
+bekommt deutsche Beispiele, jede andere Sprache englische.
+
 ---
 
 ## 3. Aufbau eines Prompts
@@ -153,6 +156,8 @@ Prompts, die beide Tags tragen.
 hinterlegen. Ein Keyword hängt seinen Text vor oder hinter den Prompt. Ändern Sie
 das Keyword, ändern sich alle Prompts mit, die es benutzen. Das eignet sich für
 Vorgaben wie **Antworte auf Deutsch** oder für ein festes Ausgabeformat.
+**Kopieren** neben einem Keyword in der Liste legt seinen Text in die
+Zwischenablage.
 
 Den **Stern** setzen Sie an einem Prompt. In der Bibliothek blenden Sie mit
 **Nur Favoriten** alles andere aus.
@@ -201,12 +206,18 @@ Keyword-Definitionen fehlen darin. Zum Sichern nehmen Sie JSON.
 Sie nennt, wie viele Prompts neu sind, wo Namensgleichheit besteht und welche
 Keywords angelegt würden. Erst danach wird geschrieben.
 
+Jeden Prompt und jedes Keyword, das in Ihrer Sammlung noch fehlt, können Sie
+anlegen oder überspringen. Anlegen ist die Voreinstellung, eine unverändert
+übernommene Datei kommt also vollständig an. Eine Auswahl setzt alle neuen
+Einträge auf einmal. Überspringen Sie ein Keyword, das ein angelegter Prompt
+benutzt, sagt die Vorschau das, denn dieser Prompt kommt dann ohne es an.
+
 Bei Namensgleichheit entscheiden Sie je Prompt:
 
 | Entscheidung | Wirkung |
 |---|---|
 | Überspringen | Ihrer bleibt, wie er ist. Das ist die Voreinstellung |
-| Als Kopie | Beide bleiben, der neue heißt **… (Kopie)** |
+| Als Kopie | Beide bleiben, der neue endet auf das Wort für Kopie in der Sprache der Oberfläche, auf Deutsch **… (Kopie)** |
 | Überschreiben | Ihrer wird ersetzt |
 
 Ein Import wird ganz oder gar nicht ausgeführt. Erweist sich die Datei in der
@@ -232,7 +243,7 @@ Sie das zweite Fenster.
 Zwei Angaben helfen mehr als jede Beschreibung.
 
 **Die Version.** Sie steht ganz unten in der linken Spalte, unter den
-Menüpunkten, und lautet etwa `Version 1.0.0`. Fahren Sie mit der Maus darüber,
+Menüpunkten, und lautet etwa `Version 1.1.0`. Fahren Sie mit der Maus darüber,
 dann erscheint zusätzlich, wann sie gebaut wurde und auf welchem Stand von Prompt
 Atelier sie beruht.
 

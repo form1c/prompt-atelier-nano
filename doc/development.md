@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Version | 1.0 |
-| Date | 2026-08-15 |
+| Version | 1.1 |
+| Date | 2026-09-24 |
 | Reader | Anyone working on the source |
 | Scope | Layout, development environment, design decisions and the reasoning behind them. Handing the application out is in `installation.md`, daily use in `manual.md` |
 
@@ -32,7 +32,7 @@
 ## 1. Outline
 
 Prompt Atelier Nano is the interface of Prompt Atelier without its backend. Of
-the 49 files taken from it, 41 are used unchanged. In place of the Ruby server,
+the 51 files taken from it, 43 are used unchanged. In place of the Ruby server,
 the interface answers the same calls itself, from a collection held in the
 browser.
 
@@ -55,7 +55,7 @@ Node 20 or newer is required.
 
 > **Note:** a checkout of [Prompt Atelier](https://github.com/form1c/prompt-atelier)
 > must lie beside this repository. Without it the build stops with exit code 1 and
-> produces no file, because 49 of the source files are copied from there and are
+> produces no file, because 51 of the files are copied from there and are
 > not kept in this repository. See chapter 4.
 
 **After cloning, the path to that checkout has to be set once.** It lives in
@@ -156,7 +156,7 @@ npm run sync          # copy the shared files into vendor/
 npm run sync:check    # report only, write nothing
 ```
 
-The copy list holds 49 files. The sync aborts when a copied file was changed
+The copy list holds 51 files. The sync aborts when a copied file was changed
 locally, when a listed file is missing, or when a copy target would leave
 `vendor/`.
 
@@ -199,6 +199,17 @@ uses neither.
 The prefixes are the whole rule. A sentence for the trash would read naturally as
 `trash.expiry`, next to thirty upstream `trash.*` keys, and on the day upstream
 adds a key of that name this table would swallow it without a word.
+
+**One exception, and it is named.** A copied screen sometimes says something that
+is false here. The import screen heads the new entries with a phrase that speaks
+of a workspace, and this build has none. Shadowing a screen of several hundred
+lines for one heading would cost more than it saves. So each language may carry
+a section `override`, holding keys of the full application whose text is replaced
+on purpose. It is read only for keys outside the two prefixes, and only in the
+language on the screen, so a missing override falls back to the full
+application's sentence in that language and never to English. The test bench
+checks that every language carries the same overrides and that each one still
+exists in the full application.
 
 ---
 
@@ -368,8 +379,8 @@ had already asked for its prompts when the examples were put in behind its back.
 **The screen reader** reads text and never clicks. It is not a test and must not
 become one.
 
-Two user tests are named in the project documents and cannot be automated. The
-file chooser is a window of the operating system.
+Choosing the backup file on disk cannot be tested automatically, because the
+file chooser is a window of the operating system. It is checked by hand.
 
 ---
 

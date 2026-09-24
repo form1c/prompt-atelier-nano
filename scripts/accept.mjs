@@ -125,6 +125,120 @@ for (const name of wanted) {
   await browser.close()
 }
 
+// --- the screens --------------------------------------------------------------
+//
+// What the bench cannot see, because it calls no screen. The bench answers for
+// the dispatcher: given the right request, the right thing happens. Whether a
+// screen **sends** that request is a separate claim, and two of them came in
+// with 1.1.0 of the main application and have no other witness:
+//
+//   * the first run takes the example package of the language on the screen
+//   * a duplicate made through the screen ends in that language's word
+//
+// The second is checked in French, where the word differs from the English
+// fallback. Plus two that concern this build only: the import screen must not speak of
+// a workspace, and every keyword row offers its copy button.
+//
+// Each in a fresh context with its own storage and its own language, so the
+// language is the browser's and not a setting left over from another claim.
+
+const exampleTitles = (language) => new Set(JSON.parse(
+  readFileSync(resolve(ROOT, `vendor/examples/examples.${language}.json`), 'utf8')).prompts.map((one) => one.title))
+
+// Titles that only one of the two packages carries. Four are shared — prompts
+// written in a third language on purpose — and would prove nothing.
+const german = exampleTitles('de')
+const english = exampleTitles('en')
+const onlyIn = (own, other) => [...own].filter((title) => !other.has(title))
+
+function claim (id, what, ok, detail) {
+  findings.push({ id, ok })
+  say(`  ${ok ? 'hält ' : 'REISST'}  ${id.padEnd(6)}  ${what.padEnd(20)} ${detail}`)
+}
+
+async function firstRun (browser, locale) {
+  const context = await browser.newContext({ locale })
+  const tab = await context.newPage()
+  await tab.goto(page)
+  await tab.locator('[data-test="take-examples"]').click()
+  await tab.waitForSelector('.hits .hit', { timeout: 20000 })
+  return { context, tab }
+}
+
+// The library shows a page of rows, not all 55, so a title is looked for by
+// searching rather than by reading the list.
+async function shows (tab, title) {
+  await tab.goto(`${page}#/?q=${encodeURIComponent(`"${title}"`)}`)
+  await tab.waitForSelector('.hits .hit, .empty', { timeout: 20000 })
+  return (await tab.locator('.hits .hit').allInnerTexts()).some((row) => row.includes(title))
+}
+
+for (const name of wanted) {
+  say(`\n${name}, Bildschirme`)
+  const browser = await engines[name].launch()
+
+  for (const [locale, own, other, label] of [
+    ['de-DE', german, english, 'deutsch'],
+    ['en-US', english, german, 'englisch']
+  ]) {
+    const { context, tab } = await firstRun(browser, locale)
+    const mine = onlyIn(own, other)[0]
+    const theirs = onlyIn(other, own)[0]
+    const right = await shows(tab, mine)
+    const wrong = await shows(tab, theirs)
+    claim('EX', `Beispiele ${label}`, right && !wrong,
+      right && !wrong ? `„${mine}" da, „${theirs}" nicht` : `„${mine}": ${right}, „${theirs}": ${wrong}`)
+    await context.close()
+  }
+
+  // In French, not in English: without a word from the screen the dispatcher
+  // falls back to the English "(copy)", so an English check would pass over
+  // a screen that sends nothing. The first attempt did exactly that.
+  {
+    const { context, tab } = await firstRun(browser, 'fr-FR')
+    await tab.goto(`${page}#/prompt/1/duplicate`)
+    await tab.waitForSelector('[data-test="confirm"]', { timeout: 20000 })
+    const hint = await tab.locator('.transfer__note').innerText()
+    await tab.locator('[data-test="confirm"]').click()
+    await tab.waitForURL(/rename=1/, { timeout: 20000 })
+    const title = await tab.locator('input').first().inputValue()
+    const ok = title.endsWith(' (copie)') && hint.includes('… (copie)')
+    claim('COPY', 'Kopietitel franz.', ok, ok ? `„${title}"` : `Titel „${title}", Hinweis „${hint.slice(0, 60)}…"`)
+    await context.close()
+  }
+
+  {
+    const { context, tab } = await firstRun(browser, 'de-DE')
+    await tab.goto(`${page}#/transfer`)
+    await tab.locator('[data-test="file"]').setInputFiles({
+      name: 'neu.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify({
+        format: 'promptatelier-export', version: 2, keywords: [],
+        prompts: [{ title: 'Ganz neu in der Abnahme', body: 'x' }, { title: 'Auch neu', body: 'y' }]
+      }))
+    })
+    await tab.waitForSelector('[data-test="additions"]', { timeout: 20000 })
+    const heading = await tab.locator('.transfer__group').first().innerText()
+    const text = await tab.locator('main').innerText()
+    const ok = heading === 'Neu in dieser Sammlung' && !/workspace/i.test(text)
+    claim('EN-03', 'Import ohne Workspace', ok, ok ? `„${heading}"` : `„${heading}"${/workspace/i.test(text) ? ', Workspace im Text' : ''}`)
+    await context.close()
+  }
+
+  {
+    const { context, tab } = await firstRun(browser, 'de-DE')
+    await tab.goto(`${page}#/keywords`)
+    await tab.waitForSelector('.entries .entry', { timeout: 20000 })
+    const rows = await tab.locator('.entries .entry').count()
+    const buttons = await tab.locator('[data-test="copy-keyword"]').count()
+    claim('KW', 'Keyword kopieren', rows > 0 && rows === buttons, `${buttons} Knöpfe bei ${rows} Keywords`)
+    await context.close()
+  }
+
+  await browser.close()
+}
+
 // --- the two timings, and where they honestly come from ---------------------
 //
 // NFA-02 and NFA-04 need to reach the search and the rendering directly, and

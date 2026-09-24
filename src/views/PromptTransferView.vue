@@ -58,10 +58,15 @@ async function confirm () {
   failure.value = null
 
   try {
-    const payload = await post(`/prompts/${prompt.value.id}/duplicate`)
+    // The copy's title ends in the word for "copy" in the language on the
+    // screen, as upstream does. The dispatcher holds no translations and uses
+    // what it is sent.
+    const payload = await post(`/prompts/${prompt.value.id}/duplicate`, {
+      body: { copy_suffix: t('prompt.copy_suffix') }
+    })
 
     notify(t('relocate.duplicated'))
-    // TF-352: a copy lands in the editor with its title selected — "… (Kopie)"
+    // TF-352: a copy lands in the editor with its title selected — "… (copy)"
     // is a placeholder, not a name.
     await router.replace({
       name: 'prompt-edit',
@@ -96,7 +101,7 @@ function cancel () {
       <!-- The two consequences nobody asked for and everybody has to know
            about (FA-204): the copy is a draft that only its owner sees, and it
            arrives carrying a title that has to be replaced. -->
-      <p class="transfer__note">{{ t('nano.relocate.duplicate_hint') }}</p>
+      <p class="transfer__note">{{ t('nano.relocate.duplicate_hint', { suffix: t('prompt.copy_suffix') }) }}</p>
 
       <div class="transfer__actions">
         <button type="button" class="button button--quiet" @click="cancel">

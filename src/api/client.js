@@ -27,8 +27,8 @@ import { COLLECTION_ID } from '@/state/session'
 import { current, save, handOverBackup, markExported, state as storage } from '@/store'
 import { promptFrom, tagsFrom, packageFrom } from '@/store/package'
 import {
-  parse, preview, decisionFor, keywordDecisionFor, markdownFiles, exportPackage,
-  exportFilename, Refused
+  parse, preview, decisionFor, keywordDecisionFor, newKeywordDecisionFor, copyTitle,
+  markdownFiles, exportPackage, exportFilename, Refused
 } from '@/store/transfer'
 import { daysLeft } from '@/store/retention'
 import { variableKeys } from '@/util/rendering'
@@ -519,11 +519,11 @@ const HANDLERS = [
     return {}
   }],
 
-  // FA-204. The copy carries "(Kopie)" and starts as a draft that only its
-  // owner sees: a duplicate is a working copy, and a working copy that was
-  // instantly as public as its original would publish something nobody has
-  // looked at yet.
-  ['POST', /^\/prompts\/(\d+)\/duplicate$/, async ([id]) => {
+  // FA-204. The copy's title ends in the word for "copy" that the screen sends,
+  // and the copy starts as a draft that only its owner sees: a duplicate is a
+  // working copy, and a working copy that was instantly as public as its
+  // original would publish something nobody has looked at yet.
+  ['POST', /^\/prompts\/(\d+)\/duplicate$/, async ([id], { body }) => {
     refuseIfLocked()
     const record = current()
     const source = alive().find((entry) => entry.id === Number(id))
@@ -532,7 +532,7 @@ const HANDLERS = [
     const copy = {
       ...structuredClone({ ...source, revision: undefined }),
       id: record.nextId,
-      title: `${source.title} (Kopie)`,
+      title: copyTitle(source.title, body?.copy_suffix),
       visibility: 'private',
       status: 'draft',
       created_at: new Date().toISOString(),
@@ -759,6 +759,7 @@ const HANDLERS = [
     // anybody being told. It is a decision instead,
     // and skipping is what an unanswered one means.
     const conflicts = new Map(plan.keywords.conflicts.map((entry) => [entry.index, entry]))
+    const additions = new Map(plan.keywords.additions.map((entry) => [entry.index, entry]))
 
     for (const [index, entry] of pack.keywords.entries()) {
       const name = String(entry.name).trim()
@@ -774,6 +775,13 @@ const HANDLERS = [
 
       if (!conflict) {
         if (!plan.keywords.to_create.includes(name)) continue
+
+        // A new keyword may be left behind as well. A prompt that names it
+        // then arrives without it, and the preview has said so.
+        if (reading(() => newKeywordDecisionFor(additions.get(index), body?.keyword_decisions)) === 'skip') {
+          report.keywords_skipped.push(name)
+          continue
+        }
 
         draft.nextKeywordId = draft.nextKeywordId ?? draft.keywords.length + 1
         draft.keywords.push({ id: draft.nextKeywordId, ...definition })
@@ -810,7 +818,7 @@ const HANDLERS = [
 
       if (choice === 'skip') { report.skipped.push(entry.title); continue }
 
-      const title = choice === 'copy' ? `${entry.title} (Kopie)` : entry.title
+      const title = choice === 'copy' ? copyTitle(entry.title, body?.copy_suffix) : entry.title
       const built = intoCollection(draft, { ...source, title })
 
       if (choice === 'overwrite') {

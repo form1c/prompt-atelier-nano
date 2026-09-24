@@ -13,10 +13,15 @@
 
 import { setLanguage, availableLanguages, t } from '@/i18n'
 import ownTexts from '@/i18n/texts.json'
+import upstreamDe from '@/locales/de.json'
+import upstreamEn from '@/locales/en.json'
+import upstreamFr from '@/locales/fr.json'
+import upstreamIt from '@/locales/it.json'
+import upstreamEs from '@/locales/es.json'
 import {
   start, save, current, state as storage,
   chooseFile, unlockFile, releaseFile,
-  offeringExamples, takeExamples, declineExamples
+  offeringExamples, takeExamples, declineExamples, examplesFor
 } from '@/store'
 import { daysLeft, overdue, sweep, TRASH_DAYS } from '@/store/retention'
 import { permissionOf, writeText } from '@/store/file'
@@ -24,8 +29,9 @@ import { serialise } from '@/store/record'
 import { get, post, put, del, ApiError } from '@/api/client'
 import { render } from '@/util/rendering'
 import { packageFrom, collectionFrom, optionText, optionList } from '@/store/package'
-import { parse, markdownFiles, slug } from '@/store/transfer'
-import examples from '@/examples/examples.json'
+import { parse, markdownFiles, slug, copyTitle } from '@/store/transfer'
+import examplesDe from '@/examples/examples.de.json'
+import examplesEn from '@/examples/examples.en.json'
 import vectors from '@/vectors/rendering.json'
 import { tokens, normalize, highlightRanges, termsOf } from '@/store/search'
 import searchVectors from '../vectors/search.json'
@@ -298,13 +304,39 @@ async function suite () {
     body: { title: 'Ohne Text', body: '', tags: [] }
   }), 'validation_failed'))
 
-  await check('duplicate: carries "(Kopie)" and is a private draft (FA-204)', async () => {
+  // The word comes from the screen, in the language on it. The bench runs in
+  // German, so the word the German file carries has to arrive — and it is
+  // asserted by name, so a locale file that lost it would not pass as "the
+  // same word on both sides".
+  await check('duplicate: ends in the word the screen sends, a private draft (FA-204)', async () => {
+    is(t('prompt.copy_suffix'), '(Kopie)', 'the German word for a copy')
+
     const first = (await get('/prompts', { params: { limit: 1 } })).prompts[0]
-    const { prompt } = await post(`/prompts/${first.id}/duplicate`)
+    const { prompt } = await post(`/prompts/${first.id}/duplicate`, {
+      body: { copy_suffix: t('prompt.copy_suffix') }
+    })
 
     is(prompt.title, `${first.title} (Kopie)`, 'title')
     is(prompt.visibility, 'private', 'visibility')
     is(prompt.status, 'draft', 'status')
+  })
+
+  // What counts as a usable word is the main application's rule, mirrored:
+  // stripped, at most 40 characters, no control characters, and otherwise the
+  // English word. Both sides of each edge, because an off-by-one here puts a
+  // line break or a paragraph into a title.
+  await check('copy title: what is trusted as a suffix, and the English fallback', () => {
+    is(copyTitle('Brief', '(copie)'), 'Brief (copie)', 'a word as sent')
+    is(copyTitle('Brief', '  (copie)\t'), 'Brief (copie)', 'stripped at both edges')
+    is(copyTitle('Brief', undefined), 'Brief (copy)', 'nothing sent')
+    is(copyTitle('Brief', ''), 'Brief (copy)', 'empty')
+    is(copyTitle('Brief', '   '), 'Brief (copy)', 'only spaces')
+    is(copyTitle('Brief', 42), 'Brief (copy)', 'not a string')
+    is(copyTitle('Brief', 'x'.repeat(40)), `Brief ${'x'.repeat(40)}`, 'forty characters')
+    is(copyTitle('Brief', 'x'.repeat(41)), 'Brief (copy)', 'forty-one characters')
+    is(copyTitle('Brief', 'ä'.repeat(40)), `Brief ${'ä'.repeat(40)}`, 'counted in characters')
+    is(copyTitle('Brief', 'Ko\npie'), 'Brief (copy)', 'a line break inside')
+    is(copyTitle('Brief', 'Ko\u0007pie'), 'Brief (copy)', 'a control character inside')
   })
 
   await check('undo: one revision, and it is the state before (FA-702)', async () => {
@@ -410,7 +442,9 @@ async function suite () {
   // Kept as its own case so that the one difference is stated rather than
   // hidden in a comparison that skips fields.
   await check('AN-01b: the shipped examples survive, timestamps excepted', async () => {
-    const before = JSON.parse(JSON.stringify(examples))
+    // German, because the bench runs in German and took this package at the
+    // first run. The English one is held to the same rule further down.
+    const before = JSON.parse(JSON.stringify(examplesDe))
     const content = JSON.stringify(before)
 
     const { preview } = await post('/import/preview', { body: { content } })
@@ -566,8 +600,10 @@ async function suite () {
     })
 
     const { preview } = await post('/import/preview', { body: { content } })
-    const { report } = await post('/import', { body: { content, decisions: { [preview.prompts[0].index]: 'copy' } } })
-    is(report.created, [`${first.title} (Kopie)`], 'created as a copy')
+    const { report } = await post('/import', {
+      body: { content, decisions: { [preview.prompts[0].index]: 'copy' }, copy_suffix: t('prompt.copy_suffix') }
+    })
+    is(report.created, [`${first.title} (Kopie)`], 'created as a copy, in the word the screen sent')
   })
 
   await check('a decision that was never offered is refused (FA-802)', async () => {
@@ -716,6 +752,117 @@ async function suite () {
     }), 'decision_not_available')
 
     is(refusal.params.decision, 'copy', 'and names the decision it will not take')
+  })
+
+  // --- choosing what an import brings in -------------------------------------
+  //
+  // A new entry used to have no decision: whatever the file brought that the
+  // collection did not have was created, all of it. Now each one may be
+  // created or skipped, prompts and keywords alike. The screen that asks this
+  // arrived through the sync. What it reads and sends has to be answered here,
+  // and it has to be answered the way the main application answers it, or the
+  // screen would offer choices this build then ignores.
+
+  // A collision target of its own. Borrowing the first prompt of the
+  // collection was the first attempt, and an earlier case had given that one
+  // a namesake, which made it ambiguous rather than a collision.
+  const target = (await post('/prompts', { body: { title: 'Auswahl Ziel', body: 'Steht schon da.', tags: [] } })).prompt
+
+  // One collision, two new prompts, and a new keyword both of them name.
+  const choosingFile = (existingTitle) => JSON.stringify({
+    format: 'promptatelier-export',
+    version: 2,
+    keywords: [{ name: 'Auswahlton', description: null, text: 'Knapp.', position: 'append', sort_order: 10 }],
+    prompts: [
+      { title: existingTitle, body: 'Kollidiert.' },
+      { title: 'Auswahl A', body: 'Erster neuer.', default_keywords: ['Auswahlton'] },
+      { title: 'Auswahl B', body: 'Zweiter neuer.', default_keywords: [' Auswahlton '] }
+    ]
+  })
+
+  await check('import: a new entry offers create and skip, a collision does not', async () => {
+    const { preview } = await post('/import/preview', { body: { content: choosingFile(target.title) } })
+
+    is(preview.prompts.map((entry) => entry.state), ['collision', 'new', 'new'], 'states')
+    is(preview.prompts[1].decisions, ['create', 'skip'], 'a new prompt')
+    is(preview.prompts[0].decisions, ['skip', 'copy', 'overwrite'], 'a collision, as before')
+
+    // Named by both new prompts, the second one with spaces around the name,
+    // which the way in strips. The screen counts from these positions how many
+    // created prompts would lose the keyword if it were skipped.
+    is(preview.keywords.additions.length, 1, 'one new keyword')
+    const addition = preview.keywords.additions[0]
+    is(addition.name, 'Auswahlton')
+    is(addition.decisions, ['create', 'skip'], 'the same two choices as a prompt')
+    is(addition.used_by, [1, 2], 'by position in the file')
+  })
+
+  await check('import: what is skipped stays out, and a prompt loses a skipped keyword', async () => {
+    const content = choosingFile(target.title)
+    const before = (await get('/prompts', { params: { limit: 500 } })).meta.total
+
+    // A skipped, B without a decision, the collision without one, the keyword
+    // skipped. No decision means create for a new entry and skip for a
+    // collision, and those two defaults differ on purpose.
+    const { report } = await post('/import', {
+      body: { content, decisions: { 1: 'skip' }, keyword_decisions: { 0: 'skip' } }
+    })
+
+    is(report.created, ['Auswahl B'], 'only the prompt that was not left behind')
+    is(report.skipped, [target.title, 'Auswahl A'], 'the collision and the skipped one')
+    is(report.keywords_skipped, ['Auswahlton'], 'the keyword, named')
+    is(report.keywords_created, [], 'and not created')
+
+    const after = (await get('/prompts', { params: { limit: 500 } })).meta.total
+    is(after, before + 1, 'one prompt more in the collection, not two')
+    ok(!current().keywords.some((keyword) => keyword.name === 'Auswahlton'), 'the keyword is not in the catalogue')
+
+    // The effect the screen warns about, in the collection rather than in the
+    // report: the prompt arrived, its keyword did not.
+    const arrived = current().prompts.find((prompt) => prompt.title === 'Auswahl B' && !prompt.deleted_at)
+    ok(arrived, 'B is there')
+    is((arrived.keywords ?? []).map((keyword) => keyword.name), [], 'B carries no keyword')
+  })
+
+  await check('import: create is honoured as a decision, not only as a default', async () => {
+    const content = JSON.stringify({
+      format: 'promptatelier-export',
+      version: 2,
+      keywords: [{ name: 'Auswahlklang', description: null, text: 'Weich.', position: 'append', sort_order: 10 }],
+      prompts: [{ title: 'Auswahl C', body: 'Mit Keyword.', default_keywords: ['Auswahlklang'] }]
+    })
+
+    const { report } = await post('/import', {
+      body: { content, decisions: { 0: 'create' }, keyword_decisions: { 0: 'create' } }
+    })
+
+    is(report.created, ['Auswahl C'], 'the prompt')
+    is(report.keywords_created, ['Auswahlklang'], 'the keyword')
+
+    const arrived = current().prompts.find((prompt) => prompt.title === 'Auswahl C' && !prompt.deleted_at)
+    is((arrived.keywords ?? []).map((keyword) => keyword.name), ['Auswahlklang'], 'and C carries it')
+  })
+
+  // Every decision the preview did not offer is refused, and a refused import
+  // writes nothing. Checked in the collection, not only in the error.
+  await check('import: a choice a new entry was not offered is refused, and nothing is written', async () => {
+    const content = choosingFile(target.title)
+    const snapshot = JSON.stringify({ prompts: current().prompts.length, keywords: current().keywords.length })
+
+    const cases = [
+      [{ decisions: { 1: 'overwrite' } }, 'overwrite', 'overwriting a prompt that is not there'],
+      [{ decisions: { 1: 'copy' } }, 'copy', 'copying a prompt that is not there'],
+      [{ decisions: { 0: 'create' } }, 'create', 'creating a prompt that collides'],
+      [{ keyword_decisions: { 0: 'overwrite' } }, 'overwrite', 'overwriting a keyword that is not there']
+    ]
+
+    for (const [extra, decision, what] of cases) {
+      const refusal = await refused(() => post('/import', { body: { content, ...extra } }), 'decision_not_available')
+      is(refusal.params.decision, decision, what)
+    }
+
+    is(JSON.stringify({ prompts: current().prompts.length, keywords: current().keywords.length }), snapshot,
+      'the collection is as it was')
   })
 
   await check('import: all or nothing (SEC-12)', async () => {
@@ -1130,6 +1277,74 @@ async function suite () {
       `${version.source} übernommen am ${version.synced}`
   })
 
+  // An upstream sentence replaced on purpose. The section is the one exception
+  // to the two prefixes, and it is held to three things: every language
+  // carries the same replacements, each one replaces a key that exists
+  // upstream in that language, and the screen shows the replacement rather
+  // than the upstream sentence. A key renamed upstream would otherwise fall
+  // back to the old wording in silence, which is the failure this guards.
+  await check('an override replaces an upstream sentence, in every language', async () => {
+    const upstreamTables = { de: upstreamDe, en: upstreamEn, fr: upstreamFr, it: upstreamIt, es: upstreamEs }
+    const lookup = (source, key) => String(key).split('.').reduce(
+      (node, part) => (node && typeof node === 'object' ? node[part] : undefined), source)
+    const keysOf = (node, path = '') => Object.entries(node).flatMap(([key, value]) =>
+      value && typeof value === 'object' ? keysOf(value, `${path}${key}.`) : [`${path}${key}`])
+
+    const replaced = keysOf(ownTexts.en.override)
+    ok(replaced.length > 0, 'there is something to hold')
+
+    const problems = []
+    for (const code of availableLanguages()) {
+      // The whole table, not only the section: anything outside the two
+      // prefixes and the section is a sentence nobody can reach.
+      const top = Object.keys(ownTexts[code] ?? {}).sort()
+      if (JSON.stringify(top) !== JSON.stringify(['nano', 'override', 'storage'])) problems.push(`${code}: sections ${top}`)
+
+      if (JSON.stringify(keysOf(ownTexts[code]?.override ?? {})) !== JSON.stringify(replaced)) {
+        problems.push(`${code}: not the same replacements as English`)
+      }
+
+      await setLanguage(code)
+      for (const key of replaced) {
+        if (typeof lookup(upstreamTables[code], key) !== 'string') problems.push(`${code}: ${key} is gone upstream`)
+        if (t(key) !== lookup(ownTexts[code].override, key)) problems.push(`${code}: ${key} shows ${t(key)}`)
+      }
+    }
+    await setLanguage('de')
+
+    is(problems, [], 'overrides')
+
+    // And the reason for this one: this build has a single collection, and a
+    // heading that speaks of a workspace names something that is not there.
+    const workspace = /workspace|espace de travail|spazio di lavoro|espacio de trabajo/i
+    for (const code of availableLanguages()) {
+      ok(!workspace.test(ownTexts[code].override.transfer.new_prompts), `${code} still speaks of a workspace`)
+    }
+  })
+
+  // German where the screen is German, English everywhere else: the rule of
+  // the main application's seed script. Both packages are real data that ship,
+  // so both go through this build's own reader, and every keyword a prompt of
+  // theirs names has to be one the package provides — a first run in English
+  // must not start with missing keywords.
+  await check('examples: the package follows the language, and both are sound', () => {
+    for (const code of availableLanguages()) {
+      const expected = code.startsWith('de') ? examplesDe : examplesEn
+      ok(examplesFor(code) === expected, `${code} takes the wrong package`)
+    }
+
+    for (const [name, pkg] of [['de', examplesDe], ['en', examplesEn]]) {
+      const read = parse(JSON.stringify(pkg))
+      is(read.prompts.length, 55, `${name}: prompts`)
+      is(read.keywords.length, 10, `${name}: keywords`)
+      is(read.unknown_fields, [], `${name}: fields this build does not know`)
+
+      const provided = new Set(read.keywords.map((keyword) => String(keyword.name).trim()))
+      const named = read.prompts.flatMap((prompt) => prompt.default_keywords ?? []).map((one) => String(one).trim())
+      is(named.filter((one) => !provided.has(one)), [], `${name}: keywords named but not provided`)
+    }
+  })
+
   await check('the collection survives a save and a fresh read', async () => {
     const before = (await get('/prompts', { params: { limit: 500 } })).meta.total
     await start()
@@ -1167,7 +1382,10 @@ async function suite () {
         else keys.push(`${path}${key}`)
       }
     }
-    collect(ownTexts.en)
+    // Without `override`: those are upstream keys replaced on purpose, and
+    // they are held to their own rule in the next case.
+    const { override: _replaced, ...ownOnly } = ownTexts.en
+    collect(ownOnly)
 
     const lookup = (source, key) => String(key).split('.').reduce(
       (node, part) => (node && typeof node === 'object' ? node[part] : undefined),

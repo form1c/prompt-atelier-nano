@@ -1,6 +1,6 @@
 {
   "name": "promptatelier-nano",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "Prompt Atelier without a server: one HTML file, storage in the browser.",

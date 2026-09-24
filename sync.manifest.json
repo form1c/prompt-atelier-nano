@@ -1,8 +1,8 @@
 {
   "$comment": "Written by scripts/sync.mjs. Edit `files` by hand, never `sha256`, `syncedAt` or `sourceVersion`.",
   "source": "../../PromptStorage/project",
-  "syncedAt": "2026-08-31T18:29:49.439Z",
-  "sourceVersion": "1.0.0",
+  "syncedAt": "2026-09-24T20:04:47.336Z",
+  "sourceVersion": "1.1.0",
   "files": [
     {
       "from": "frontend/src/util/rendering.js",
@@ -62,27 +62,27 @@
     {
       "from": "frontend/src/locales/de.json",
       "to": "locales/de.json",
-      "sha256": "3a02aee9a42ea42c0d09007a84f73e4ba1f13f5141d4efdf989631227c7fbc2a"
+      "sha256": "5f7d08633e384da277d30c55433a5024e757d0f47b8dc0752d1fc39af04388c6"
     },
     {
       "from": "frontend/src/locales/en.json",
       "to": "locales/en.json",
-      "sha256": "b5aa2c3016eecde254a5e50b9dad071a8e35ab26b4909d6359f4df7cff0baabb"
+      "sha256": "a0609740a7233c8d59dcea979fd09944fd9ff6e084c34dc174c2e8b66e796a03"
     },
     {
       "from": "frontend/src/locales/es.json",
       "to": "locales/es.json",
-      "sha256": "c88455e6c9ccbc1c6cf6f2354bc2ed2ab5e2a2ed97e45077832e9f76ead68114"
+      "sha256": "3707849d7e0ac486937eaeccc16f88cdb779e80581f66f5c4cb4745dc500d6c7"
     },
     {
       "from": "frontend/src/locales/fr.json",
       "to": "locales/fr.json",
-      "sha256": "1a1d21525d8cd061fa1ee180ef75ad547df81e4124419ee16cd0578b72c47262"
+      "sha256": "3bfd7cc202a466eed9072fcfb1001ef57e8fa5507dc8c1205f5e60aa2b3ddbf3"
     },
     {
       "from": "frontend/src/locales/it.json",
       "to": "locales/it.json",
-      "sha256": "6310170c4a7bdef060914405539fc226f2f270e53e56c18289d4df4d4f3d1632"
+      "sha256": "cbd244fa7306046109e9727efdc30a21cd83a58e437091ecc6bfa4eb5ab08670"
     },
     {
       "from": "frontend/src/components/Icon.vue",
@@ -97,7 +97,12 @@
     {
       "from": "frontend/src/components/NoticeHost.vue",
       "to": "components/NoticeHost.vue",
-      "sha256": "93927632df4c1b0fdf75c311c1b0a0acc87b2c4faa5764800bf02429cd93b9ae"
+      "sha256": "30d18b70a245ecf6cc76accc1a4f6af1749596090de15a70f310d9e61b325411"
+    },
+    {
+      "from": "frontend/src/components/ManualCopy.vue",
+      "to": "components/ManualCopy.vue",
+      "sha256": "be221d8579a0ceb48bd8b549610ab18b7d6ec4f4367c9953a61e1c388ce6c2b0"
     },
     {
       "from": "frontend/src/components/EmptyState.vue",
@@ -168,7 +173,7 @@
     {
       "from": "frontend/src/views/PromptView.vue",
       "to": "views/PromptView.vue",
-      "sha256": "3887f09e6ebde64bf27f4bb38e0458bcd93265b7a98f20bfa8d5ddc6c9439e4b"
+      "sha256": "8a355ad90322775ce353de3b3e0cc5916df418bf3f2a2138e59f29e6f6eb1cae"
     },
     {
       "from": "frontend/src/views/PromptEditorView.vue",
@@ -178,7 +183,7 @@
     {
       "from": "frontend/src/views/KeywordsView.vue",
       "to": "views/KeywordsView.vue",
-      "sha256": "96505eb9f1ca7b8fd2c200f47494b03134ee105dc83e48b5a1f823ea9e77034a"
+      "sha256": "53a5bf6035ab4e858db26f747aca8eeabec2dcecdb5e941d75dd537a71d151e9"
     },
     {
       "from": "frontend/src/views/TrashView.vue",
@@ -189,13 +194,13 @@
     {
       "from": "frontend/src/views/TransferView.vue",
       "to": "views/TransferView.vue",
-      "sha256": "54b6ed60ae4777a7845061cd11ebc1c0eabc8ea82dc3698ec843e476f1b668d4"
+      "sha256": "bdcac16cf8f490dde9ec53454b4f099a19c6eabee87a0c9f98f59360fa8782e4"
     },
     {
       "from": "frontend/src/views/PromptTransferView.vue",
       "to": "views/PromptTransferView.vue",
       "shadow": "The workspace chooser goes with EN-03 — one collection, nothing to choose. What is left is the confirmation and what a copy will be. The move half is gone with it; its route does not exist here.",
-      "sha256": "ae27f50f3bcf1e564e1caf95bd784b829d0889bb15225eb0391c19d413258b30"
+      "sha256": "eb8028ac329a7d3abc5906bbed9c02d6a972963f1bfb33bbdfd75ce79eab17c3"
     },
     {
       "from": "frontend/src/state/notices.js",
@@ -248,9 +253,14 @@
       "sha256": "05e765dd4682e0efee2e12d9849a3226192ae7884cb4cbf68bc24bc6eb40baae"
     },
     {
-      "from": "examples/examples.json",
-      "to": "examples/examples.json",
+      "from": "examples/examples.de.json",
+      "to": "examples/examples.de.json",
       "sha256": "1544fa20c0e63d851439b908160ef3e62e09464b9f742f9e94d2d101b9bb17f9"
+    },
+    {
+      "from": "examples/examples.en.json",
+      "to": "examples/examples.en.json",
+      "sha256": "04a068b936064fe1d5b935a773a6e7f225dd297b3bfeb5df8eeaad01c4560e0b"
     },
     {
       "from": "tests/vectors/rendering.json",
@@ -258,5 +268,5 @@
       "sha256": "093b316690be36022a1605a1a671ee9ac468c8639294b01cec64f6ec4264fe38"
     }
   ],
-  "sourceCommit": "aaddd1e (with uncommitted changes)"
+  "sourceCommit": "4e14299"
 }

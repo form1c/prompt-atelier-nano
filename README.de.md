@@ -104,8 +104,8 @@ Jedes Dokument gibt es auch auf Englisch, ohne das Kürzel `.de`.
 
 Die Anwendung ist eine Oberfläche in Vue 3. In der vollständigen Anwendung holt
 sie ihre Daten über HTTP von einem Ruby-Server. Hier beantwortet sie dieselben
-Aufrufe selbst, aus einer Sammlung im Browser. Von den 49 aus der vollständigen
-Anwendung übernommenen Dateien werden 41 unverändert weiterbenutzt.
+Aufrufe selbst, aus einer Sammlung im Browser. Von den 51 aus der vollständigen
+Anwendung übernommenen Dateien werden 43 unverändert weiterbenutzt.
 
 Beim Bauen entsteht eine einzige Datei. Skript, Gestaltung, Symbole,
 Übersetzungen und Beispieldaten werden in die HTML hineingeschrieben, weil ein

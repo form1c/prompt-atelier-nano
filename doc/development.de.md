@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Fassung | 1.0 |
-| Stand | 2026-08-15 |
+| Fassung | 1.1 |
+| Stand | 2026-09-24 |
 | Zielgruppe | Wer am Quelltext arbeitet |
 | Abgrenzung | Aufbau, Entwicklungsumgebung, Entwurfsentscheidungen und ihre Begründung. Die Weitergabe steht in `installation.de.md`, die tägliche Benutzung in `manual.de.md` |
 
@@ -31,8 +31,8 @@
 
 ## 1. Überblick
 
-Prompt Atelier Nano ist die Oberfläche von Prompt Atelier ohne deren Backend. Von den 49
-übernommenen Dateien werden 41 unverändert benutzt. An der Stelle des Ruby-Servers
+Prompt Atelier Nano ist die Oberfläche von Prompt Atelier ohne deren Backend. Von den 51
+übernommenen Dateien werden 43 unverändert benutzt. An der Stelle des Ruby-Servers
 beantwortet die Oberfläche dieselben Aufrufe selbst, aus einer Sammlung im
 Browser.
 
@@ -56,7 +56,7 @@ Node 20 oder neuer wird vorausgesetzt.
 
 > **Hinweis:** Eine Arbeitskopie von [Prompt Atelier](https://github.com/form1c/prompt-atelier)
 > muss neben diesem Repository liegen. Ohne sie bricht der Bau mit Rückgabewert 1 ab und erzeugt keine Datei,
-> denn 49 der Quelldateien werden von dort kopiert und liegen nicht in diesem
+> denn 51 der Dateien werden von dort kopiert und liegen nicht in diesem
 > Repository. Siehe Kapitel 4.
 
 **Nach dem Klonen ist der Pfad zu dieser Arbeitskopie einmal einzustellen.** Er
@@ -161,7 +161,7 @@ npm run sync          # die gemeinsam benutzten Dateien nach vendor/ holen
 npm run sync:check    # nur berichten, nichts schreiben
 ```
 
-Die Kopierliste umfasst 49 Dateien. Der Abgleich bricht ab, wenn eine kopierte
+Die Kopierliste umfasst 51 Dateien. Der Abgleich bricht ab, wenn eine kopierte
 Datei örtlich verändert wurde, wenn eine gelistete Datei fehlt oder wenn ein
 Kopierziel `vendor/` verlassen würde.
 
@@ -207,6 +207,17 @@ Die Präfixe sind die ganze Regel. Ein Satz für den Papierkorb läse sich als
 `trash.expiry` natürlich, neben dreißig `trash.*`-Schlüsseln der Hauptanwendung,
 und an dem Tag, an dem dort ein Schlüssel dieses Namens entsteht, verschluckte
 diese Tabelle ihn wortlos.
+
+**Eine Ausnahme, und sie ist benannt.** Eine kopierte Ansicht sagt manchmal etwas,
+das hier nicht stimmt. Die Importansicht überschreibt die neuen Einträge mit einer
+Wendung, die von einem Workspace spricht, und dieser Bau hat nur eine Sammlung. Eine Ansicht von mehreren hundert Zeilen für eine Überschrift zu
+beschatten, kostete mehr, als es spart. Deshalb darf jede Sprache einen Abschnitt
+`override` führen, der Schlüssel der vollständigen Anwendung enthält, deren Text
+absichtlich ersetzt wird. Er wird nur für Schlüssel außerhalb der beiden Präfixe
+gelesen und nur in der Sprache der Oberfläche. Fehlt eine Ersetzung, gilt also der
+Satz der vollständigen Anwendung in dieser Sprache und nie der englische. Der
+Prüfstand stellt sicher, dass jede Sprache dieselben Ersetzungen führt und jede
+davon in der vollständigen Anwendung noch besteht.
 
 ---
 
@@ -384,8 +395,9 @@ hinter ihrem Rücken eingefügt wurden.
 **`screens.mjs`** liest Texte und klickt nie. Es ist kein Test und darf keiner
 werden.
 
-Zwei Nutzertests sind in den Projektdokumenten benannt und lassen sich nicht
-automatisieren. Der Dateiwähler ist ein Fenster des Betriebssystems.
+Die Wahl der Sicherungsdatei auf der Festplatte lässt sich nicht automatisch
+prüfen, weil der Dateiwähler ein Fenster des Betriebssystems ist. Sie wird von
+Hand geprüft.
 
 ---
 

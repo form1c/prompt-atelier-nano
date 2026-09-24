@@ -24,7 +24,9 @@ import { packageFrom } from '@/store/package'
 import { sweep } from '@/store/retention'
 import * as file from '@/store/file'
 import { download, jsonDocument } from '@/util/download'
-import examples from '@/examples/examples.json'
+import { currentLanguage } from '@/i18n'
+import examplesDe from '@/examples/examples.de.json'
+import examplesEn from '@/examples/examples.en.json'
 
 const CHANNEL = 'promptatelier.nano'
 
@@ -215,8 +217,19 @@ async function write (next) {
 export const offeringExamples = computed(() =>
   state.ready && !state.readOnly && !state.examplesOffered)
 
+// Which package, by the language on the screen. The same rule the main
+// application's `seed_demo` follows: German where the language is German,
+// English everywhere else. There is no French, Italian or Spanish package, and
+// English is read by more of those who choose one of those languages than
+// German is.
+//
+// Asked at the moment of taking, not at start-up: the language may have been
+// switched between the two.
+export const examplesFor = (language) =>
+  String(language ?? '').startsWith('de') ? examplesDe : examplesEn
+
 export async function takeExamples () {
-  record = withExamples(record, examples)
+  record = withExamples(record, examplesFor(currentLanguage()))
   state.examplesOffered = true
   // Not counted as a change: this is the starting position, not work. The
   // header would otherwise open on „55 ungesichert" before anything was done.

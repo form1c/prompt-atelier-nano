@@ -37,7 +37,7 @@
         "swept_one": "“{title}” had been in the trash for more than 30 days and was removed for good."
       },
       "relocate": {
-        "duplicate_hint": "The copy is a draft, visible only to you, and is called “… (Kopie)” to begin with. It opens in the editor afterwards so you can give it a name."
+        "duplicate_hint": "The copy is a draft, visible only to you, and is called “… {suffix}” to begin with. It opens in the editor afterwards so you can give it a name."
       },
       "firstrun": {
         "title": "Welcome to Prompt Atelier Nano",
@@ -49,6 +49,11 @@
       "app": {
         "name": "Prompt Atelier Nano",
         "origin": "Version {app}, built on {built} · based on Prompt Atelier {source}, taken on {synced}"
+      }
+    },
+    "override": {
+      "transfer": {
+        "new_prompts": "New in this collection"
       }
     }
   },
@@ -90,7 +95,7 @@
         "swept_one": "„{title}“ lag länger als 30 Tage im Papierkorb und wurde endgültig entfernt."
       },
       "relocate": {
-        "duplicate_hint": "Die Kopie ist ein Entwurf, den nur Sie sehen, und heißt zunächst „… (Kopie)“. Sie landet anschließend im Editor, damit Sie ihr einen Namen geben können."
+        "duplicate_hint": "Die Kopie ist ein Entwurf, den nur Sie sehen, und heißt zunächst „… {suffix}“. Sie landet anschließend im Editor, damit Sie ihr einen Namen geben können."
       },
       "firstrun": {
         "title": "Willkommen bei Prompt Atelier Nano",
@@ -102,6 +107,11 @@
       "app": {
         "name": "Prompt Atelier Nano",
         "origin": "Version {app}, gebaut am {built} · basiert auf Prompt Atelier {source}, übernommen am {synced}"
+      }
+    },
+    "override": {
+      "transfer": {
+        "new_prompts": "Neu in dieser Sammlung"
       }
     }
   },
@@ -143,7 +153,7 @@
         "swept_one": "« {title} » était dans la corbeille depuis plus de 30 jours et a été supprimé définitivement."
       },
       "relocate": {
-        "duplicate_hint": "La copie est un brouillon que vous seul voyez, et elle s'appelle d'abord « … (Kopie) ». Elle s'ouvre ensuite dans l'éditeur pour que vous puissiez lui donner un nom."
+        "duplicate_hint": "La copie est un brouillon que vous seul voyez, et elle s'appelle d'abord « … {suffix} ». Elle s'ouvre ensuite dans l'éditeur pour que vous puissiez lui donner un nom."
       },
       "firstrun": {
         "title": "Bienvenue dans Prompt Atelier Nano",
@@ -155,6 +165,11 @@
       "app": {
         "name": "Prompt Atelier Nano",
         "origin": "Version {app}, compilée le {built} · basée sur Prompt Atelier {source}, reprise le {synced}"
+      }
+    },
+    "override": {
+      "transfer": {
+        "new_prompts": "Nouveau dans cette collection"
       }
     }
   },
@@ -196,7 +211,7 @@
         "swept_one": "« {title} » era nel cestino da più di 30 giorni ed è stato eliminato definitivamente."
       },
       "relocate": {
-        "duplicate_hint": "La copia è una bozza che vedi solo tu e all'inizio si chiama « … (Kopie) ». Poi si apre nell'editor, così puoi darle un nome."
+        "duplicate_hint": "La copia è una bozza che vedi solo tu e all'inizio si chiama « … {suffix} ». Poi si apre nell'editor, così puoi darle un nome."
       },
       "firstrun": {
         "title": "Ti diamo il benvenuto in Prompt Atelier Nano",
@@ -208,6 +223,11 @@
       "app": {
         "name": "Prompt Atelier Nano",
         "origin": "Versione {app}, compilata il {built} · basata su Prompt Atelier {source}, ripresa il {synced}"
+      }
+    },
+    "override": {
+      "transfer": {
+        "new_prompts": "Nuovo in questa raccolta"
       }
     }
   },
@@ -249,7 +269,7 @@
         "swept_one": "« {title} » llevaba más de 30 días en la papelera y se ha eliminado definitivamente."
       },
       "relocate": {
-        "duplicate_hint": "La copia es un borrador que solo ve usted y al principio se llama « … (Kopie) ». Después se abre en el editor para que pueda darle un nombre."
+        "duplicate_hint": "La copia es un borrador que solo ve usted y al principio se llama « … {suffix} ». Después se abre en el editor para que pueda darle un nombre."
       },
       "firstrun": {
         "title": "Le damos la bienvenida a Prompt Atelier Nano",
@@ -261,6 +281,11 @@
       "app": {
         "name": "Prompt Atelier Nano",
         "origin": "Versión {app}, compilada el {built} · basada en Prompt Atelier {source}, tomada el {synced}"
+      }
+    },
+    "override": {
+      "transfer": {
+        "new_prompts": "Nuevo en esta colección"
       }
     }
   }

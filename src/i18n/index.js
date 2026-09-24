@@ -30,6 +30,18 @@
 // swallowed it without a word. So the shadowed screens use `nano.trash.…`,
 // which looks slightly wrong on the screen file and is right in the one place
 // that matters.
+//
+// **One exception, and it is named.** A copied screen sometimes says something
+// that is false here. The import screen heads the new entries with "Neu in
+// diesem Workspace", and there are no workspaces in this build. Shadowing a
+// screen of several hundred lines for one heading would be the drift of RN-10
+// again. So each language may carry a section `override`, holding upstream
+// keys whose text is replaced **on purpose**. It is read only for keys outside
+// the two prefixes, and only in the language on the screen: an override
+// missing in French falls back to the upstream French sentence, never to the
+// English override. The bench holds every override to a key that exists
+// upstream in every language, so a renamed key upstream goes red here instead
+// of quietly falling back.
 
 import { t as upstream, currentLanguage } from '../../vendor/i18n/index.js'
 import own from '@/i18n/texts.json'
@@ -48,9 +60,15 @@ const interpolate = (text, replacements) => text.replace(
   (whole, name) => (name in replacements ? String(replacements[name]) : whole)
 )
 
+// The prefixes are enforced here as well as stated above: a key outside them
+// never reaches the own sentences, whatever the table holds.
+const OWN = /^(storage|nano)\./
+
 export function t (key, replacements = {}) {
   const language = currentLanguage()
-  const value = lookup(own[language] ?? {}, key) ?? lookup(own.en, key)
+  const value = OWN.test(String(key))
+    ? lookup(own[language] ?? {}, key) ?? lookup(own.en, key)
+    : lookup(own[language]?.override ?? {}, key)
 
   if (typeof value === 'string') return interpolate(value, replacements)
 

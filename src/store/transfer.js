@@ -60,6 +60,33 @@ export const DECISIONS = ['skip', 'copy', 'overwrite']
 // to.
 export const KEYWORD_DECISIONS = ['skip', 'overwrite']
 
+// What an entry that does not exist here yet may be answered with, prompt or
+// keyword alike. A backup of a whole collection brings everything along, and
+// whoever wants three prompts out of it needs a way to leave the rest behind.
+// `create` is the default, so a caller that sends no decision gets what every
+// import did before.
+export const NEW_DECISIONS = ['create', 'skip']
+
+// What a copy's title ends in when the caller sends nothing usable. The
+// dispatcher holds no translations, the screen does, so the screen sends the
+// word in the language it shows. A script or an older screen that sends
+// nothing gets the English word, as it does from the main application.
+export const COPY_SUFFIX = '(copy)'
+const COPY_SUFFIX_MAX = 40
+
+// Ruby's `strip`, not JavaScript's `trim`: the main application decides what a
+// usable suffix is, and the two differ on what counts as space at the edges.
+const rubyStrip = (text) => text.replace(/^[\t\n\v\f\r \0]+|[\t\n\v\f\r \0]+$/g, '')
+
+// Whatever is not a short piece of text is not trusted as one. Counted in
+// characters, like Ruby's `length`, not in UTF-16 code units.
+export function copyTitle (title, suffix) {
+  const wanted = typeof suffix === 'string' ? rubyStrip(suffix) : ''
+  const usable = wanted !== '' && [...wanted].length <= COPY_SUFFIX_MAX && !/\p{Cc}/u.test(wanted)
+
+  return `${title} ${usable ? wanted : COPY_SUFFIX}`
+}
+
 // The fields 17.1 lists. Anything else in a file is unknown and is **reported**
 // rather than silently dropped: a file from a newer version stays usable, and
 // the report says what was left behind rather than letting the user find out
@@ -198,7 +225,7 @@ function packageOf (prompts, keywords, workspaceName) {
 // would happen and what may be decided.
 //
 // Entries are addressed by their **position in the file**, not by their title.
-// A file may well carry the same title twice — FA-204 produces "… (Kopie)" and
+// A file may well carry the same title twice — FA-204 produces "… (copy)" and
 // somebody exports both — and a decision keyed by title would then apply to a
 // row nobody meant.
 export function preview (record, pack) {
@@ -211,7 +238,7 @@ export function preview (record, pack) {
       index,
       title: String(entry.title).trim(),
       state: matches.length === 0 ? 'new' : matches.length === 1 ? 'collision' : 'ambiguous',
-      decisions: matches.length === 0 ? [] : matches.length === 1 ? DECISIONS : DECISIONS.filter((one) => one !== 'overwrite'),
+      decisions: matches.length === 0 ? NEW_DECISIONS : matches.length === 1 ? DECISIONS : DECISIONS.filter((one) => one !== 'overwrite'),
       candidates: matches
     }
   })
@@ -255,8 +282,28 @@ function keywordReport (record, pack) {
   return {
     to_create: provided.filter((name) => !here.includes(name)).sort(),
     missing: needed.filter((name) => !here.includes(name) && !provided.includes(name)).sort(),
+    additions: keywordAdditions(pack, here),
     conflicts: keywordConflicts(record, pack)
   }
+}
+
+// The keywords of the file that do not exist here, each with a decision like a
+// new prompt. `used_by` names the prompts of the file that point at it, by
+// their position: a keyword that is skipped while a prompt using it is created
+// leaves that prompt without it, because a name with no keyword behind it is
+// dropped on the way in. Whether that happens depends on the prompt decisions,
+// which are made on the screen, so the screen gets the positions and counts
+// for itself.
+function keywordAdditions (pack, here) {
+  return pack.keywords.map((entry, index) => {
+    const name = String(entry.name).trim()
+    if (here.includes(name)) return null
+
+    const usedBy = pack.prompts.flatMap((prompt, position) =>
+      (prompt.default_keywords ?? []).some((value) => String(value).trim() === name) ? [position] : [])
+
+    return { index, name, decisions: NEW_DECISIONS, text: entry.text, used_by: usedBy }
+  }).filter(Boolean)
 }
 
 // A keyword whose name is taken used to fall between the two lists above: not
@@ -302,10 +349,15 @@ const comparable = (fields) => JSON.stringify(
 // not offer is refused rather than quietly reinterpreted: the caller asked for
 // something specific, and doing something else with their data is worse than
 // refusing.
+//
+// A new entry with no decision is created, which is what an import did before
+// new entries could be decided at all. The two defaults differ on purpose:
+// leaving out a collision must never destroy anything, and leaving out a new
+// entry must not quietly lose it.
 export function decisionFor (entry, decisions) {
-  if (entry.state === 'new') return 'create'
-
   const choice = decisions?.[entry.index] ?? decisions?.[String(entry.index)] ?? null
+
+  if (entry.state === 'new' && choice === null) return 'create'
   if (choice === null || choice === 'skip') return 'skip'
 
   if (!entry.decisions.includes(choice)) {
@@ -327,6 +379,16 @@ export function keywordDecisionFor (conflict, decisions) {
   }
 
   return choice
+}
+
+// A new keyword: no decision means create, as it always did. Anything but the
+// two offered is refused, like everywhere else in this file.
+export function newKeywordDecisionFor (addition, decisions) {
+  const choice = decisions?.[addition.index] ?? decisions?.[String(addition.index)] ?? null
+  if (choice === null || choice === 'create') return 'create'
+  if (choice === 'skip') return 'skip'
+
+  throw new Refused('decision_not_available', { title: addition.name, decision: choice })
 }
 
 // --- the Markdown export (FA-803, 17.2) -------------------------------------

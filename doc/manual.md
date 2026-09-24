@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Version | 1.0 |
-| Date | 2026-08-15 |
+| Version | 1.1 |
+| Date | 2026-09-24 |
 | Reader | Anyone using the application |
 | Scope | Daily work, from the durability of the data to the exchange of prompts. Handing the file to further machines is in `installation.md` |
 
@@ -93,6 +93,9 @@ If you are unsure, choose the examples. They show how a prompt with placeholders
 is built, using finished cases. Examples that are not needed can be selected and
 deleted together.
 
+The examples come in the language of the interface. A German interface gets German
+examples, every other language gets English ones.
+
 ---
 
 ## 3. How a prompt is built
@@ -147,7 +150,8 @@ not as or. The list then shows only prompts carrying both tags.
 **Keywords** are blocks of text you write once and attach to many prompts. A
 keyword puts its text before or after the prompt. Change the keyword and every
 prompt using it changes with it. This suits instructions such as **answer in
-German** or a fixed output format.
+German** or a fixed output format. **Copy** beside a keyword in the list puts its
+text on the clipboard.
 
 The **star** marks a prompt as a favourite. In the library, **Favourites only**
 hides everything else.
@@ -193,12 +197,17 @@ are missing from it. Use JSON for backups.
 how many prompts are new, where names collide and which keywords would be
 created. Only then is anything written.
 
+Every prompt and keyword that is new to your collection can be created or
+skipped. Creating is the default, so a file taken as it is arrives complete. One
+choice sets all new entries at once. If you skip a keyword that a created prompt
+uses, the preview says so, because that prompt then arrives without it.
+
 Where names collide you decide per prompt:
 
 | Decision | Effect |
 |---|---|
 | Skip | Yours stays as it is. This is the default |
-| As a copy | Both are kept, the new one is called **… (Kopie)**. The suffix is German in every interface language, in this application and in the full one |
+| As a copy | Both are kept, the new one ends in the word for copy in the language of the interface, for example **… (copy)** |
 | Overwrite | Yours is replaced |
 
 An import is carried out completely or not at all. If the file turns out to be
@@ -224,7 +233,7 @@ window.
 Two details help more than any description.
 
 **The version.** It stands at the very bottom of the left column, below the menu
-entries, and reads something like `Version 1.0.0`. Hovering over it also shows
+entries, and reads something like `Version 1.1.0`. Hovering over it also shows
 when it was built and which state of Prompt Atelier it is based on.
 
 **The storage.** The line under the header beginning with `Stored in:`. It says

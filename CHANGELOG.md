@@ -2,6 +2,31 @@
 
 All notable changes to this project are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-09-24
+
+A choice for every new entry of an import, copying keywords from the list, and example prompts in English. Built from Prompt Atelier 1.1.0.
+
+### Added
+
+- **Choose what an import brings in.** Every prompt and keyword of a file that is not in the collection yet can be created or skipped, and one choice sets all new entries at once. Creating is the default, so a file taken as it is arrives as before. A backup of a whole collection no longer has to be taken whole when only part of it is wanted. When a skipped keyword is named by a prompt that is created, the preview says so, because that prompt arrives without it.
+- **Copy the text of a keyword from the list.** Every keyword in the list has a copy button. Until now the text was reachable only through the edit form. If the browser refuses the clipboard, the text is offered for selecting by hand, as on the prompt screen.
+- **Example prompts in English.** The first start offers the examples in the language of the interface: German for a German interface, English for every other. Both packages hold 55 prompts and 10 keywords.
+
+### Changed
+
+- **The title of a copy ends in the word for copy in the language of the interface**, for example `(copy)` or `(copie)`. Before, it was always the German `(Kopie)`. This applies to duplicating a prompt and to importing an entry as a copy, and the note on the duplicate screen names the word that will be used.
+- **The copy buttons stay in sight beside a long preview.** The bar with both copy buttons stays at the bottom of the window on every screen width while the preview is visible.
+- **Notices appear at the top right, below the header.** At the bottom they covered the copy button that had just been pressed.
+
+### Fixed
+
+- **German messages are written with umlauts.** Among them the refusals of an import file that cannot be read.
+- **The German refusal of a newer export file named only format version 1.** It names versions 1 and 2, as the other languages did.
+
+### Measured for this release
+
+In Chromium, Firefox and WebKit, against the delivered file: 144.7 kB compressed of a 300 kB limit, first render 69 to 138 ms, search 3.0 to 4.2 ms at 500 prompts, preview 0.1 ms and below, zero network requests, zero references to external files.
+
 ## [1.0.0] - 2026-08-31
 
 First public release. Built from Prompt Atelier 1.0.0.

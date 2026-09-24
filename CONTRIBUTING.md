@@ -8,7 +8,7 @@ For anything beyond a small fix, open an issue first and describe what you inten
 
 ## Setting up
 
-**This repository cannot be built on its own.** Prompt Atelier Nano is derived from [Prompt Atelier](https://github.com/form1c/prompt-atelier): 49 of its source files are copied from there and are not kept here. Without a checkout of Prompt Atelier beside this one, the build stops with exit code 1 and produces no file.
+**This repository cannot be built on its own.** Prompt Atelier Nano is derived from [Prompt Atelier](https://github.com/form1c/prompt-atelier): 51 of its files are copied from there and are not kept here. Without a checkout of Prompt Atelier beside this one, the build stops with exit code 1 and produces no file.
 
 `doc/development.md` describes the development environment, the directory layout and the design decisions. Section 2 covers the checkout and the one path that has to be set after cloning.
 

@@ -102,8 +102,8 @@ Each document exists in German as well, with the suffix `.de.md`.
 
 The application is a Vue 3 interface. In the full application it talks to a Ruby
 backend over HTTP. Here the same interface talks to a local dispatcher that
-answers the identical calls from a collection held in the browser. Of the 49
-files taken from the full application, 41 are used unchanged.
+answers the identical calls from a collection held in the browser. Of the 51
+files taken from the full application, 43 are used unchanged.
 
 The build produces one file. Script, styles, icons, translations and example data
 are folded into the HTML, because a browser opening a file from a folder refuses
